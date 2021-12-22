@@ -1,0 +1,49 @@
+/**
+ * Sample React Native App
+ * https://github.com/facebook/react-native
+ *
+ * @format
+ * @flow strict-local
+ */
+
+import React from "react";
+import {
+  View,
+} from 'react-native';
+import { Routes } from  "./Routes";
+import { useAuth } from "./hooks/auth.hook";
+import { AuthContext } from "./context/authContext";
+import {MenuProvider} from "./provider/MenuProvider";
+import {DataProvider} from "./provider/DataProvider";
+import {SettingDataProvider} from "./provider/SettingDataProvider";
+import {PopapProvider} from "./provider/PopapProvider";
+
+
+const App = () => {
+  const {token, url_str, login, logUrl, logout, fullLogout, lenguage, updateLenguage, ready} = useAuth();
+
+  const isAuth = !!token;
+  const isUrl = !!url_str;
+
+  const routes = Routes(isAuth, isUrl);
+
+  return (
+    <View style={{width: '100%', height: '100%', position: 'relative'}}>
+    <AuthContext.Provider value={{
+      token, url_str, login, logUrl, logout, fullLogout, lenguage, updateLenguage, ready
+    }}>
+      <MenuProvider>
+        <DataProvider>
+          <SettingDataProvider>
+            <PopapProvider>
+              {routes}
+            </PopapProvider>
+          </SettingDataProvider>
+        </DataProvider>
+      </MenuProvider>
+    </AuthContext.Provider>
+    </View>
+  );
+};
+
+export default App;
