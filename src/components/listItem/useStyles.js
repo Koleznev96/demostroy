@@ -4,7 +4,7 @@ const {width, height} = Dimensions.get('screen');
 
 export const styles = StyleSheet.create({
     rootSt: {
-        marginTop: 15,
+        marginTop: Platform.OS === 'ios' ? 15 : 5,
         width: '100%',
         position: 'relative',
         paddingHorizontal: 20,

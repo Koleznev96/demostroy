@@ -67,6 +67,7 @@ export const styles = StyleSheet.create({
         borderRadius: 15,
         marginTop: 5,
         zIndex: 500,
+        
     },
     button_menu: {
         width: '50%',
@@ -82,8 +83,10 @@ export const styles = StyleSheet.create({
     button_menu_label: {
         color: Colors.Placeholder,
         fontSize: 14,
+        
     },
     button_menu_label_active: {
         color: '#fff',
+        
     }
 });
