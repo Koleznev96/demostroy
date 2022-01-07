@@ -10,6 +10,7 @@ export const styles = StyleSheet.create({
         // paddingBottom: 100,
     },
     coll: {
+        zIndex: 2500,
         paddingHorizontal: 20,
     },
     header_search: {
@@ -17,6 +18,7 @@ export const styles = StyleSheet.create({
         justifyContent: 'space-between',
     },
     scrollView: {
+        zIndex: 0,
         width: '100%',
         paddingBottom: 120,
     },

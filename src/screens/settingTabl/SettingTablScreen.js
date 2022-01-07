@@ -12,6 +12,7 @@ import { styles } from "./useStyles";
 import {HeaderBreack} from "../../components/headerBreack/HeaderBreack";
 import {DataContext} from "../../context/DataContext";
 import GlobalStyle from "../../components/GlobalStyle";
+import {DataLangContext} from "../../context/DataLangContext";
 import {ButtonFull} from "../../components/buttonFull/ButtonFull";
 import {Popap} from "../../components/popap/Popap";
 import { GlobalSvgSelector } from '../../assets/GlobalSvgSelector';
@@ -30,7 +31,9 @@ class DraggyInner extends React.Component {
             LayoutAnimation.easeInEaseOut();
             return (
                 <View style={{
-                    width: this.props.status ? (width-43)/2 : (width-40),
+                    marginLeft: 8,
+                    marginRight: 8,
+                    width: this.props.status ? (width-69)/2 : (width-56),
                     height: 50,
                     paddingHorizontal: 13,
                     flexDirection: 'row',
@@ -60,7 +63,9 @@ class DraggyInner extends React.Component {
         }
         return (
             <View style={{
-                width: this.props.status ? (width-43)/2 : (width-40),
+                marginLeft: 8,
+                marginRight: 8,
+                width: this.props.status ? (width-69)/2 : (width-56),
                 height: 50,
                 paddingHorizontal: 13,
                 flexDirection: 'row',

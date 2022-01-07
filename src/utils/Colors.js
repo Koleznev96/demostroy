@@ -13,10 +13,9 @@ export const Colors = {
             width: 0,
             height: 0,
         },
-        shadowOpacity: 5,
-        shadowRadius: 15,
-
-        elevation: 17,
+        shadowOpacity: 3,
+        shadowRadius: 8,
+        elevation: 10,
     }
 };
 
@@ -27,5 +26,5 @@ export const InputStyle = {
     borderRadius: 20,
     paddingHorizontal: 20,
     aliginItems: 'center',
-    colors: '#fff',
+    color: '#fff',
 }

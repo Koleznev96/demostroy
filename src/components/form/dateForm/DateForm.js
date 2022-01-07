@@ -30,8 +30,8 @@ export const DateForm = ({ data }) => {
                 mode="date"
                 placeholder="select date"
                 format="YYYY-MM-DD"
-                minDate="2016-05-01"
-                maxDate="2023-06-01"
+                minDate="2018-05-01"
+                maxDate="2026-06-01"
                 confirmBtnText="Confirm"
                 cancelBtnText="Cancel"
                 iconSource={null}
@@ -77,8 +77,8 @@ export const DateForm = ({ data }) => {
                 mode="date"
                 placeholder="0000-00-00"
                 format="YYYY-MM-DD"
-                minDate="2016-01-01"
-                maxDate="2028-12-12"
+                minDate="2018-01-01"
+                maxDate="2030-12-12"
                 confirmBtnText="Confirm"
                 cancelBtnText="Cancel"
                 iconSource={null}

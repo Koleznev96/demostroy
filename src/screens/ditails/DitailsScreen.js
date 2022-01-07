@@ -11,6 +11,7 @@ import { useHttp } from "../../hooks/http.hook";
 import { styles } from "./useStyles";
 import {Menu} from "../../components/menu/Menu";
 import GlobalStyle from "../../components/GlobalStyle";
+import {DataLangContext} from "../../context/DataLangContext";
 import { GlobalSvgSelector } from '../../assets/GlobalSvgSelector';
 import {HeaderBreack} from "../../components/headerBreack/HeaderBreack";
 import {EventItemView} from "../../components/eventItemView/EventItemView";
@@ -22,6 +23,7 @@ function DitailsScreen({ navigation, route }) {
     const {data, form} = route.params;
     const [len, setLen] = useState(0);
     const [lenL, setLenL] = useState(0);
+    const dataLang = useContext(DataLangContext);
 
     useEffect(() => {
         if (data) {

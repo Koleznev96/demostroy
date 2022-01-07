@@ -70,7 +70,9 @@ function AuthorizationScreen({ navigation }) {
             <InputFull data={{value: password, change: setPassword, placeholder: 'Пароль', error: errorField.password, secret: true}} />
             <View style={styles.liner}>
                 <TouchableOpacity style={styles.recet_password}>
-                    <Text style={[GlobalStyle.CustomFontRegular, styles.recet_password_text]}>Забыли пароль?</Text>
+                    <Text style={[GlobalStyle.CustomFontRegular, styles.recet_password_text]}>
+                        {/* Забыли пароль? */}
+                    </Text>
                 </TouchableOpacity>
             </View>
             <ButtonFull data={{value: 'Войти', change: AuthHandler, styles: {marginTop: 15,}}} />

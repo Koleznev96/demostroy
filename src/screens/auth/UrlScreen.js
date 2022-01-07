@@ -39,6 +39,8 @@ function UrlScreen({ navigation }) {
                     name: 'Login',
                     params: {url: urlField},
                 });
+            } else {
+                setErrorField('Не вернно введен адрес');
             }
         } catch (e) {
             setErrorField('Не вернно введен адрес');

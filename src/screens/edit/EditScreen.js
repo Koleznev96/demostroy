@@ -9,6 +9,7 @@ import { styles } from "./useStyles";
 import {HeaderBreack} from "../../components/headerBreack/HeaderBreack";
 import {MenuContext} from "../../context/MenuContext";
 import {DataContext} from "../../context/DataContext";
+import {DataLangContext} from "../../context/DataLangContext";
 import {InputForm} from "../../components/form/inputForm/InputForm";
 import {NumberForm} from "../../components/form/numberForm/NumberForm";
 import {DropDownForm} from "../../components/form/dropDownForm/DropDownForm";
@@ -29,6 +30,7 @@ function EditScreen({ navigation, route }) {
     const {loading, request, error, clearError} = useHttp();
     const [finalForm, setFinalForm] = useState({});
     const [errorForm, setErrorForm] = useState({});
+    const dataLang = useContext(DataLangContext);
     const [data, setData] = useState(null);
 
     const getData = async () => {
@@ -103,12 +105,12 @@ function EditScreen({ navigation, route }) {
     const renderGetInput = ({data}) => {
         if (data.type === 'input') return <InputForm data={{...data, change: changeRoot, value: finalForm, error: errorForm[data.name]}}/>;
         if (data.type === 'number') return <NumberForm data={{...data, change: changeRoot, value: finalForm, error: errorForm[data.name]}}/>;
-        if (data.type === 'dropdown') return <DropDownForm data={{...data, change: changeRoot, value: finalForm, error: errorForm[data.name]}}/>;
+        if (data.type === 'dropdown') return <DropDownForm data={{...data, change: changeRoot, value: finalForm, error: errorForm[data.name], lang: dataLang.data}}/>;
         if (data.type === 'date') return <DateForm data={{...data, change: changeRoot, value: finalForm, error: errorForm[data.name]}}/>;
         if (data.type === 'text') return <TextForm data={{...data, change: changeRoot, value: finalForm, error: errorForm[data.name]}}/>;
         if (data.type === 'multiple') return <MultipleForm data={{...data, change: changeRoot, value: finalForm, error: errorForm[data.name]}}/>;
-        if (data.type === 'books') return <BooksForm data={{...data, change: changeRoot, value: finalForm, error: errorForm[data.name]}}/>;
-        if (data.type === 'file') return <FileForm data={{...data, change: changeRoot, value: finalForm, error: errorForm[data.name], url}}/>;
+        if (data.type === 'books') return <BooksForm data={{...data, change: changeRoot, value: finalForm, error: errorForm[data.name], lang: dataLang.data}}/>;
+        if (data.type === 'file') return <FileForm data={{...data, change: changeRoot, value: finalForm, error: errorForm[data.name], url, lang: dataLang.data}}/>;
         return null;
     }
 
@@ -117,13 +119,13 @@ function EditScreen({ navigation, route }) {
         <Popap />
 
         <View style={styles.body}>
-            <HeaderBreack data={{title: 'Изменить ' + title, callback_back: backHandler}}/>
-            <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
+            <HeaderBreack data={{title: (dataLang?.data ? dataLang?.data['Изменить'] : 'Изменить') +  ' ' +  title, callback_back: backHandler}}/>
+            <ScrollView style={styles.scrollView} skeyboardShouldPersistTaps='handled' howsVerticalScrollIndicator={false}>
                 <View style={styles.block_defoult} />
                 {dataRoot.form?.map((item, index) => {
                     return renderGetInput({data: item});
                 })}
-                <ButtonFull data={{value: 'Изменить', change: createHandler}}/>
+                <ButtonFull data={{value: (dataLang?.data ? dataLang?.data['Изменить'] : 'Изменить'), change: createHandler}}/>
                 <View style={styles.block_defoult} />
             </ScrollView>
             

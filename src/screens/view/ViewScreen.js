@@ -11,6 +11,7 @@ import { useHttp } from "../../hooks/http.hook";
 import { styles } from "./useStyles";
 import {Menu} from "../../components/menu/Menu";
 import GlobalStyle from "../../components/GlobalStyle";
+import {DataLangContext} from "../../context/DataLangContext";
 import { GlobalSvgSelector } from '../../assets/GlobalSvgSelector';
 import {HeaderBreack} from "../../components/headerBreack/HeaderBreack";
 import {EventItemView} from "../../components/eventItemView/EventItemView";

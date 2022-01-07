@@ -11,6 +11,7 @@ import { styles } from "./useStyles";
 import {HeaderBreack} from "../../components/headerBreack/HeaderBreack";
 import {MenuContext} from "../../context/MenuContext";
 import {DataContext} from "../../context/DataContext";
+import {DataLangContext} from "../../context/DataLangContext";
 import {SettingDataContext} from "../../context/SettingDataContext";
 import {InputForm} from "../../components/form/inputForm/InputForm";
 import {NumberForm} from "../../components/form/numberForm/NumberForm";
@@ -34,6 +35,7 @@ function ProfileScreen({ navigation, route }) {
     const {loading, request, error, clearError} = useHttp();
     const [isPassword, setIsPassword] = useState(false);
     const [password, setPassword] = useState('••••••••••••••');
+    const dataLang = useContext(DataLangContext);
     const [finalForm, setFinalForm] = useState({});
     const [lang, setLang] = useState(null);
     const [form, setForm] = useState(null);
@@ -113,11 +115,11 @@ function ProfileScreen({ navigation, route }) {
     const renderGetInput = ({data}) => {
         if (data.type === 'input') return <InputForm data={{...data, change: changeRoot, value: finalForm, error: errorForm[data.name]}}/>;
         if (data.type === 'number') return <NumberForm data={{...data, change: changeRoot, value: finalForm, error: errorForm[data.name]}}/>;
-        if (data.type === 'dropdown') return <DropDownForm data={{...data, change: changeRoot, value: finalForm, error: errorForm[data.name]}}/>;
+        if (data.type === 'dropdown') return <DropDownForm data={{...data, change: changeRoot, value: finalForm, error: errorForm[data.name], lang: dataLang.data}}/>;
         if (data.type === 'date') return <DateForm data={{...data, change: changeRoot, value: finalForm, error: errorForm[data.name]}}/>;
         if (data.type === 'text') return <View style={{paddingRight: 16,}}><TextForm data={{...data, change: changeRoot, value: finalForm, error: errorForm[data.name]}}/></View>;
         if (data.type === 'multiple') return <MultipleForm data={{...data, change: changeRoot, value: finalForm, error: errorForm[data.name]}}/>;
-        if (data.type === 'books') return <BooksForm data={{...data, change: changeRoot, value: finalForm, error: errorForm[data.name]}}/>;
+        if (data.type === 'books') return <BooksForm data={{...data, change: changeRoot, value: finalForm, error: errorForm[data.name], lang: dataLang.data}}/>;
         return null;
     }
 
@@ -182,7 +184,6 @@ function ProfileScreen({ navigation, route }) {
                         </View>
                         <View style={styles.hr} />
                     </View> */}
-                
             </View>
             <View style={styles.block_button}>
                 <ButtonFull data={{value: 'Выйти', change: auth.logout}}/>

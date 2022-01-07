@@ -4,14 +4,15 @@ const {width, height} = Dimensions.get('screen');
 
 export const styles = StyleSheet.create({
     rootSt: {
-        marginBottom: 5,
+        marginTop: 15,
         width: '100%',
         position: 'relative',
         paddingHorizontal: 20,
+        // zIndex: 0,
     },
     block_one: {
         position: 'absolute',
-        zIndex: 500,
+        zIndex: 0,
         left: 20,
         right: 20,
         top: 0,
@@ -26,14 +27,16 @@ export const styles = StyleSheet.create({
         justifyContent: 'space-between',
     },
     gipol: {
-        zIndex: 1000,
+        zIndex: 0,
+        // backgroundColor: 'red'
     },
     root: {
         width: '100%',
         backgroundColor: Colors.FirstColor,
+        // ackgroundColor: 'red',
         borderRadius: 15,
         ...Colors.BoxShadow,
-        zIndex: 1000,
+        zIndex: 0,
         paddingLeft: 20,
         paddingTop: 15,
         paddingBottom: 12,
@@ -100,7 +103,7 @@ export const styles = StyleSheet.create({
         fontSize: 12,
     },
     wrapper_l: {
-
+        marginTop: Platform.OS ? 20 : 0,
     },
     price: {
         width: '100%',

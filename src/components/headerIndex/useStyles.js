@@ -6,7 +6,7 @@ export const styles = StyleSheet.create({
     root: {
         width: '100%',
         height: 63,
-        marginTop: Platform.OS ? 0 : 16,
+        marginTop: Platform.OS ? 35 : 16,
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
@@ -14,9 +14,9 @@ export const styles = StyleSheet.create({
     },
     blur: {
         position: 'absolute',
-        zIndex: 10000,
+        zIndex: 5000,
         backgroundColor: 'rgba(0, 0, 0, 0.45)',
-        top: 0,
+        top: Platform.OS ? 35 : 0,
         bottom: 0,
         left: 0,
         right: 0,

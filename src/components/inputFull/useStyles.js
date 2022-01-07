@@ -9,7 +9,7 @@ export const styles = StyleSheet.create({
         borderRadius: 20,
         paddingHorizontal: 20,
         aliginItems: 'center',
-        colors: '#fff',
+        color: '#fff',
         marginTop: 10,
     },
     error_text: {

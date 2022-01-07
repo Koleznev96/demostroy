@@ -95,6 +95,7 @@ export const Menu = ({ navigation, status }) => {
     }
 
     const itemMenuHandler = (item) => {
+        console.log('aaddddd');
         dataRoot.addFilter(null);
         set_is_open(false);
         settingDataRoot.clearData();
