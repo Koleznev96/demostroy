@@ -9,6 +9,7 @@ import { styles } from "./useStyles";
 import {HeaderBreack} from "../../components/headerBreack/HeaderBreack";
 import {MenuContext} from "../../context/MenuContext";
 import {SettingDataContext} from "../../context/SettingDataContext";
+import {DataLangContext} from "../../context/DataLangContext";
 import {InputForm} from "../../components/form/inputForm/InputForm";
 import {NumberForm} from "../../components/form/numberForm/NumberForm";
 import {DropDownForm} from "../../components/form/dropDownForm/DropDownForm";
@@ -26,6 +27,7 @@ function DirectoriesCreateScreen({ navigation, route }) {
     const auth = useContext(AuthContext);
     const menuRoot = useContext(MenuContext);
     const settingDataRoot = useContext(SettingDataContext);
+    const dataLang = useContext(DataLangContext);
     const {loading, request, error, clearError} = useHttp();
     const [finalForm, setFinalForm] = useState({});
     const [errorForm, setErrorForm] = useState({});
@@ -83,12 +85,12 @@ function DirectoriesCreateScreen({ navigation, route }) {
     const renderGetInput = ({data}) => {
         if (data.type === 'input') return <InputForm data={{...data, change: changeRoot, value: finalForm, error: errorForm[data.name]}}/>;
         if (data.type === 'number') return <NumberForm data={{...data, change: changeRoot, value: finalForm, error: errorForm[data.name]}}/>;
-        if (data.type === 'dropdown') return <DropDownForm data={{...data, change: changeRoot, value: finalForm, error: errorForm[data.name]}}/>;
+        if (data.type === 'dropdown') return <DropDownForm data={{...data, change: changeRoot, value: finalForm, error: errorForm[data.name], lang: dataLang.data}}/>;
         if (data.type === 'date') return <DateForm data={{...data, change: changeRoot, value: finalForm, error: errorForm[data.name]}}/>;
         if (data.type === 'text') return <TextForm data={{...data, change: changeRoot, value: finalForm, error: errorForm[data.name]}}/>;
         if (data.type === 'multiple') return <MultipleForm data={{...data, change: changeRoot, value: finalForm, error: errorForm[data.name]}}/>;
-        if (data.type === 'books') return <BooksForm data={{...data, change: changeRoot, value: finalForm, error: errorForm[data.name]}}/>;
-        if (data.type === 'file') return <FileForm data={{...data, change: changeRoot, value: finalForm, error: errorForm[data.name], url}}/>;
+        if (data.type === 'books') return <BooksForm data={{...data, change: changeRoot, value: finalForm, error: errorForm[data.name], lang: dataLang.data}}/>;
+        if (data.type === 'file') return <FileForm data={{...data, change: changeRoot, value: finalForm, error: errorForm[data.name], url, lang: dataLang.data}}/>;
         return null;
     }
 
@@ -97,13 +99,13 @@ function DirectoriesCreateScreen({ navigation, route }) {
         <Popap />
 
         <View style={styles.body}>
-            <HeaderBreack data={{title: 'Добавить ' + settingDataRoot.title, callback_back: backHandler}}/>
-            <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
+            <HeaderBreack data={{title: (dataLang?.data ? dataLang?.data['Добавить'] : 'Добавить') +  ' ' + settingDataRoot.title, callback_back: backHandler}}/>
+            <ScrollView style={styles.scrollView} keyboardShouldPersistTaps='handled' showsVerticalScrollIndicator={false}>
                 <View style={styles.block_defoult} />
                 {settingDataRoot.form?.map((item, index) => {
                     return renderGetInput({data: item});
                 })}
-                <ButtonFull data={{value: 'Создать', change: createHandler}}/>
+                <ButtonFull data={{value: (dataLang?.data ? dataLang?.data['Создать'] : 'Создать'), change: createHandler}}/>
                 <View style={styles.block_defoult} />
             </ScrollView>
             

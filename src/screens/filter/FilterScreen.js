@@ -11,6 +11,7 @@ import {MenuContext} from "../../context/MenuContext";
 import {DataContext} from "../../context/DataContext";
 import {SettingDataContext} from "../../context/SettingDataContext";
 import {InputForm} from "../../components/form/inputForm/InputForm";
+import {DataLangContext} from "../../context/DataLangContext";
 import {NumberForm} from "../../components/form/numberForm/NumberForm";
 import {DropDownForm} from "../../components/form/dropDownForm/DropDownForm";
 import {DateForm} from "../../components/form/dateForm/DateForm";

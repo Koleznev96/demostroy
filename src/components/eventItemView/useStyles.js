@@ -4,7 +4,7 @@ const {width, height} = Dimensions.get('screen');
 
 export const styles = StyleSheet.create({
     rootSt: {
-        marginBottom: 5,
+        marginTop: 15,
         width: '100%',
         position: 'relative',
         paddingHorizontal: 20,

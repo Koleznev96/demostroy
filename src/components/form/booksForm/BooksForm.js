@@ -105,7 +105,7 @@ export const BooksForm = ({ data }) => {
         style={[styles.input, data?.styles ? data.styles : null ]} 
         onPress={() => openPopap()}
         >
-            <Text style={[GlobalStyle.CustomFontRegular, styles.value]}>{value ? value[data.filter] : 'Выберите'}</Text>
+            <Text style={[GlobalStyle.CustomFontRegular, styles.value]}>{value ? value[data.filter] : (data?.lang ? data?.lang['Выберите'] : "Выберите")}</Text>
             <GlobalSvgSelector id='arrow_items' />
         </Pressable>
         {data.error?.length ? <Text style={[GlobalStyle.CustomFontRegular, styles.error_text]}>

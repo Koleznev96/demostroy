@@ -10,19 +10,19 @@ export default StyleSheet.create({
     },
     CustomFontRegular: {
         fontSize: 18,
-        fontFamily: 'Roboto-Regular',
+        // fontFamily: 'Roboto-Regular',
         fontWeight: '400',
         color: '#fff',
     },
     CustomFontMedium: {
         fontSize: 18,
-        fontFamily: 'Roboto-Medium',
+        // fontFamily: 'Roboto-Medium',
         fontWeight: '500',
         color: '#fff',
     },
     CustomFontBold: {
         fontSize: 18,
-        fontFamily: 'Roboto-Bold',
+        // fontFamily: 'Roboto-Bold',
         fontWeight: '600',
         color: '#fff',
     },

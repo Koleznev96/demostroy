@@ -8,7 +8,8 @@ export const styles = StyleSheet.create({
     input: {
         width: '100%',
         paddingHorizontal: -4,
-        colors: '#fff',
+        height: 36,
+        color: '#fff',
         fontSize: 14,
         marginTop: -8,
         borderBottomWidth: 1,

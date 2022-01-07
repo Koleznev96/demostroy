@@ -12,6 +12,7 @@ import { PopapContext } from "../../../context/PopapContext";
 
 
 export const DropDownForm = ({ data }) => {
+    console.log('----', data.lang)
     const popapRoot = useContext(PopapContext);
     
     const [value, setValue] = useState(null);
@@ -41,7 +42,7 @@ export const DropDownForm = ({ data }) => {
             onPress={() => itemHandler({value: null})}
             >
                 {value === null ? (<GlobalSvgSelector id='check' />) : (<View style={styles.block_defoult} />)}
-                <Text style={[GlobalStyle.CustomFontRegular, styles.item]}>Выберите</Text>
+                <Text style={[GlobalStyle.CustomFontRegular, styles.item]}>{data?.lang ? data?.lang['Выберите'] : "Выберите"}</Text>
             </TouchableOpacity>
             <View style={data?.data?.length !== 0 ? styles.hr : null} />
             
@@ -72,7 +73,7 @@ export const DropDownForm = ({ data }) => {
         style={[styles.input, data?.styles ? data.styles : null ]} 
         onPress={() => openPopap()}
         >
-            <Text style={[GlobalStyle.CustomFontRegular, styles.value]}>{value ? value.label : 'Выберите'}</Text>
+            <Text style={[GlobalStyle.CustomFontRegular, styles.value]}>{value ? value.label : (data?.lang ? data?.lang['Выберите'] : "Выберите")}</Text>
             <GlobalSvgSelector id='arrow_items' />
         </Pressable>
         {data.error?.length ? <Text style={[GlobalStyle.CustomFontRegular, styles.error_text]}>

@@ -15,6 +15,7 @@ import { useAuth } from "./hooks/auth.hook";
 import { AuthContext } from "./context/authContext";
 import {MenuProvider} from "./provider/MenuProvider";
 import {DataProvider} from "./provider/DataProvider";
+import {DataLangProvider} from "./provider/DataLangProvider";
 import {SettingDataProvider} from "./provider/SettingDataProvider";
 import {PopapProvider} from "./provider/PopapProvider";
 
@@ -34,11 +35,13 @@ const App = () => {
     }}>
       <MenuProvider>
         <DataProvider>
-          <SettingDataProvider>
-            <PopapProvider>
-              {routes}
-            </PopapProvider>
-          </SettingDataProvider>
+          <DataLangProvider>
+            <SettingDataProvider>
+              <PopapProvider>
+                {routes}
+              </PopapProvider>
+            </SettingDataProvider>
+          </DataLangProvider>
         </DataProvider>
       </MenuProvider>
     </AuthContext.Provider>

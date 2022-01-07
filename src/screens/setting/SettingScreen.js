@@ -12,6 +12,7 @@ import { styles } from "./useStyles";
 import {Menu} from "../../components/menu/Menu";
 import {HeaderIndex} from "../../components/headerIndex/HeaderIndex";
 import {Colors} from "../../utils/Colors";
+import {DataLangContext} from "../../context/DataLangContext";
 import GlobalStyle from "../../components/GlobalStyle";
 import {MenuContext} from "../../context/MenuContext";
 import {DataContext} from "../../context/DataContext";
@@ -24,6 +25,7 @@ function SettingScreen({ navigation }) {
     const auth = useContext(AuthContext);
     const menuRoot = useContext(MenuContext);
     const dataRoot = useContext(DataContext);
+    const dataLang = useContext(DataLangContext);
     const settingDataContext = useContext(SettingDataContext);
     const {loading, request, error, clearError} = useHttp();
     const [isMenu, setIsMenu] = useState(false);
@@ -67,7 +69,7 @@ function SettingScreen({ navigation }) {
 
     return (
         <View style={styles.body}>
-            <HeaderIndex data={{title: 'Настройки'}} callback_person={callback_person}/>
+            <HeaderIndex data={{title: (dataLang?.data ? dataLang?.data['Настройки'] : 'Настройки')}} callback_person={callback_person}/>
             
             <View style={styles.liner_menu}>
                 <TouchableOpacity
@@ -81,7 +83,7 @@ function SettingScreen({ navigation }) {
                         isMenu ? styles.button_menu_label_active : null
                     ]}
                     >
-                        Настройки
+                        {dataLang?.data ? dataLang?.data['Настройки'] : 'Настройки'}
                     </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
@@ -95,7 +97,7 @@ function SettingScreen({ navigation }) {
                         !isMenu ? styles.button_menu_label_active : null
                     ]}
                     >
-                        Справочники
+                        {dataLang?.data ? dataLang?.data['Справочник'] : 'Справочник'}
                     </Text>
                 </TouchableOpacity>
             </View>

@@ -9,7 +9,7 @@ export const styles = StyleSheet.create({
     input: {
         width: '100%',
         // paddingHorizontal: 2,
-        colors: '#fff',
+        color: '#fff',
         fontSize: 14,
         marginTop: 6,
         borderBottomWidth: 1,

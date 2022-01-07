@@ -38,13 +38,16 @@ export const styles = StyleSheet.create({
         paddingHorizontal: 10,
         paddingVertical: 15,
         paddingRight: 40,
+        zIndex: 40,
     },
     lin_item: {
+        zIndex: 1040,
         flexDirection: 'column',
         width: '22%',
         alignItems: 'center',
     },
     lin_item_set: {
+        zIndex: 1040,
         flexDirection: 'row',
         justifyContent: 'space-between',
         width: '35%',
@@ -53,14 +56,15 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
         width: 60,
         height: 42,
-        zIndex: 1100,
+        zIndex: 3000,
+        // backgroundColor: 'red'
     },
     item_menu_active: {
         alignItems: 'center',
         marginBottom: 12,
         width: 60,
         height: 42,
-        zIndex: 1100,
+        zIndex: 3000,
     },
     block: {
         width: 60,
@@ -75,7 +79,7 @@ export const styles = StyleSheet.create({
     },
     posit_center: {
         position: 'absolute',
-        zIndex: 1040,
+        zIndex: 40,
         top: -25,
         left: 0,
         right: 0,
