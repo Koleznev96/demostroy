@@ -124,9 +124,10 @@ function ProfileScreen({ navigation, route }) {
     }
 
     const updateLang = (data) => {
-        auth.updateLenguage(data)
+        auth.updateLenguage(data);
         getProfile();
         dataRoot.newRender();
+        menuRoot.newRender();
     }
 
     return (
@@ -136,8 +137,6 @@ function ProfileScreen({ navigation, route }) {
         <View style={styles.body}>
             <HeaderBreack data={{title: 'Аккаунт', callback_back: backHandler}}/>
             <View style={styles.body_double}>
-                
-                
                     <ScrollView showsVerticalScrollIndicator={false}>
                     <View style={styles.avatar}>
                     <Image style={styles.img} source={require('../../assets/images/avatar.png')}/>

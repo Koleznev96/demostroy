@@ -15,11 +15,16 @@ export const MenuProvider = ({children, ...props}) => {
     const auth = useContext(AuthContext);
     const [listMenu, setListMenu] = useState(null);
     const [activeMenu, setActiveMenu] = useState(null);
+    const [render, setRender] = useState(false);
     const {loading, request, error, clearError} = useHttp();
 
     const menuHandler = (item) => {
         setActiveMenu(item);
     };
+
+    const newRender = () => {
+        setRender(!render);
+    }
 
     const getMenu = async (url) => {
         try {
@@ -36,13 +41,14 @@ export const MenuProvider = ({children, ...props}) => {
         if (auth.url_str) {
             getMenu(auth.url_str);
         }
-    }, [auth.token]);
+    }, [auth.token, render]);
 
     return <MenuContext.Provider
         value={{
             listMenu,
             activeMenu,
-            menuHandler
+            menuHandler,
+            newRender
         }}
         {...props}
     >

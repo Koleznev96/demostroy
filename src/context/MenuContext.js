@@ -6,4 +6,5 @@ export const MenuContext = createContext({
     listMenu: null,
     activeMenu: null,
     menuHandler: noop,
+    newRender: noop,
 });
