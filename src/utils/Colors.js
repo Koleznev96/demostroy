@@ -1,3 +1,5 @@
+import { StyleSheet, Platform } from 'react-native';
+
 export const Colors = {
     FirstColor: '#232532',
     SecondColor: '#3C3F4F',
@@ -13,9 +15,9 @@ export const Colors = {
             width: 0,
             height: 0,
         },
-        shadowOpacity: 3,
-        shadowRadius: 8,
-        elevation: 10,
+        shadowOpacity: 0.4,
+        shadowRadius: Platform.OS === 'ios' ? 5 : 8,
+        elevation: 0.1,
     }
 };
 
