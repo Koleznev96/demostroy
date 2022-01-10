@@ -76,6 +76,7 @@ export const styles = StyleSheet.create({
         height: 34,
         borderRadius: 13,
         ...Colors.BoxShadow,
+        backgroundColor: Colors.ColorInput,
     },
     button_menu_active: {
         backgroundColor: Colors.SecondColor,
