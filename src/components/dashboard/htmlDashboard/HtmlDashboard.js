@@ -10,7 +10,7 @@ import GlobalStyle from "../../GlobalStyle";
 import { MainIcon  } from '../../mainIcon/MainIcon';
 import {MenuContext} from "../../../context/MenuContext";
 import {Colors} from "../../../utils/Colors";
-import AutoHeightWebView from 'react-native-autoheight-webview';
+// import AutoHeightWebView from 'react-native-autoheight-webview';
 
 
 export const HtmlDashboard = ({data, getData, clear_get}) => {
@@ -84,7 +84,7 @@ export const HtmlDashboard = ({data, getData, clear_get}) => {
         </View>
         
         <View style={styles.block_chart}>
-            {refresh ? (menuRoot.activeMenu?.url[0] === '/dashboard' ? (
+            {/* {refresh ? (menuRoot.activeMenu?.url[0] === '/dashboard' ? (
                 <AutoHeightWebView
                     source={{
                     uri: data?.url
@@ -95,7 +95,7 @@ export const HtmlDashboard = ({data, getData, clear_get}) => {
                 <View style={{width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center',}}>
                     <ActivityIndicator size={26} color={Colors.Orange} style={styles.loader}/>
                 </View>
-            )}
+            )} */}
         </View>
         </>
     );
