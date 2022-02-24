@@ -35,7 +35,7 @@ function EditScreen({ navigation, route }) {
 
     const getData = async () => {
         try {
-            console.log('pilot-', `${auth.url_str}/mobile${url}/view?token=${auth.token}&id=${route?.params?.data?.id}`);
+            // console.log('pilot-', `${auth.url_str}/mobile${url}/view?token=${auth.token}&id=${route?.params?.data?.id}`);
             const answer = await request(`${auth.url_str}/mobile${url}/view?token=${auth.token}&id=${route?.params?.data?.id}`, 'GET', null, {
                 "Api-Language": auth.lenguage.value
             });

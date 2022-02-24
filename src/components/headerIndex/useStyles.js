@@ -12,6 +12,13 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
         zIndex: 500,
     },
+    button_update: {
+        width: 36,
+        height: 36,
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginRight: 10,
+    },
     blur: {
         position: 'absolute',
         zIndex: 2000,

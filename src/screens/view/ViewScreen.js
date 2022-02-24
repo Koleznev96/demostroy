@@ -73,9 +73,11 @@ function ViewScreen({ navigation, route }) {
 
     const getView = async () => {
         try {
+            // console.log('View-url:', `${auth.url_str}/mobile${url}/view?token=${auth.token}&id=${data.id}`)
             const answer = await request(`${auth.url_str}/mobile${url}/view?token=${auth.token}&id=${data.id}`, 'GET', null, {
                 "Api-Language": auth.lenguage.value
             });
+            // console.log('mini_menu.items-', answer?.mini_menu?.items)
             setEvent(answer);
         } catch (e) {
         }
@@ -83,9 +85,10 @@ function ViewScreen({ navigation, route }) {
 
     useEffect(() => {
         getView();
-    }, [url]);
+    }, [url, data?.id, title]);
 
     const itemHandler = (url_set, title_p) => {
+        // console.log('iiiooo-', url_set)
         settingDataContext.setTitle(title_p);
         settingDataContext.setVilkt(1);
         // settingDataContext.setBackTo_r('view', {data, url, type: true, title: title, let_rout: route.params?.let_rout});

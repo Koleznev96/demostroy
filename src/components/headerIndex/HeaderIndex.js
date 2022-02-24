@@ -33,7 +33,7 @@ const items_menu = [
     },
 ]
 
-export const HeaderIndex = ({menuHeaderHandler, callback_person}) => {
+export const HeaderIndex = ({menuHeaderHandler, callback_person, updateValue, openUpdatePopap}) => {
     const auth = useContext(AuthContext);
     const menuRoot = useContext(MenuContext);
     const [isOpen, setIsOpen] = useState(false);
@@ -101,6 +101,13 @@ export const HeaderIndex = ({menuHeaderHandler, callback_person}) => {
             </Text>
 
             <View style={styles.wrapper}>
+                {updateValue ? <TouchableOpacity
+                style={styles.button_update}
+                onPress={() => openUpdatePopap()}
+                >
+                <GlobalSvgSelector id='update_version' />
+                </TouchableOpacity>: null}
+
                 <TouchableOpacity
                 style={styles.button}
                 onPress={() => callback_person()}

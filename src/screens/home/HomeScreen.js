@@ -36,6 +36,20 @@ function HomeScreen({ navigation, route }) {
     const [Refreshing, setRefreshing] = useState(false);
     const [stipoglot, setStipoglot] = useState(-1);
     const [stipoglot_l, setStipoglot_l] = useState(-1);
+    const [updateValue, setUpdateValue] = useState(false);
+
+    const getVersion = async () => {
+        try {
+            const answer = await request(`${auth.url_str}/mobile/default/get-version`, 'GET', null, {
+                "Api-Language": auth.lenguage.value
+            });
+            setUpdateValue(answer !== 1);
+        } catch (e) {}
+    }
+
+    useEffect(() => {
+        getVersion();
+    }, []);
 
     const create = () => {
         navigation.navigate('Create');
@@ -224,6 +238,24 @@ function HomeScreen({ navigation, route }) {
         popapRoot.openHandler();
     }
 
+    const DataPopapUpdate = () => (
+        <View style={styles.block_dalate}>
+            <Text style={[GlobalStyle.CustomFontRegular, styles.label_delete]}>Обновите приложение!</Text>
+
+            <TouchableOpacity
+            style={styles.button_clouse}
+            onPress={() => clouseDeleteHandler()}
+            >
+                <Text style={[GlobalStyle.CustomFontRegular, styles.item_text]}>ОК</Text>
+            </TouchableOpacity>
+        </View>
+    );
+
+    const openUpdatePopap = () => {
+        popapRoot.dataChange(DataPopapUpdate());
+        popapRoot.openHandler();
+    }
+
     const viewItemsHandler = (data) => {
         navigation.navigate({
             name: 'View',
@@ -299,7 +331,7 @@ function HomeScreen({ navigation, route }) {
             ) : (
                 <>
                 <View style={styles.coll}>
-                    <HeaderIndex menuHeaderHandler={menuHeaderHandler} callback_person={callback_person}/>
+                    <HeaderIndex menuHeaderHandler={menuHeaderHandler} callback_person={callback_person} updateValue={updateValue} openUpdatePopap={openUpdatePopap} />
                     <View style={styles.header_search}>
                         <Search data={null} searchHandler={searchHandler} filterHandler={filterHandler}/>
                     </View>
