@@ -31,6 +31,7 @@ export const MenuProvider = ({children, ...props}) => {
             const data = await request(`${url}/mobile/default/get-menu?token=${auth.token}`, 'GET', null, {
                 "Api-Language": auth.lenguage.value
             });
+            // console.log('000-', `${url}/mobile/default/get-menu?token=${auth.token}`)
             data.items.splice(3, 0, item_setting);
             setListMenu(data.items);
             setActiveMenu(data.items[0]);

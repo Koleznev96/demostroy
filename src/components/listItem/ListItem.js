@@ -25,7 +25,7 @@ import Interactable from 'react-native-interactable';
 
 export const ListItem = ({ item }, viewHandler, redationHandler, deleteHandler, dataRoot, indexActive, itemHandler) => {
     const actionHandler = (url) => {
-        dataRoot.newRender();
+        // dataRoot.newRender();
         switch(url) {
             case '/view':
                 return viewHandler(item);
@@ -74,7 +74,7 @@ export const ListItem = ({ item }, viewHandler, redationHandler, deleteHandler, 
             
             <Interactable.View
             horizontalOnly={true}
-            snapPoints={[{x: 0}, {x: dataRoot.action ? (dataRoot.action?.action_left.length * 60) : 0}, {x: dataRoot.action ? -(dataRoot.action?.action_right.length * 60) : 0}]}
+            snapPoints={[{x: 0}, {x: dataRoot?.action ? (dataRoot?.action?.action_left?.length * 60) : 0}, {x: dataRoot?.action ? -(dataRoot?.action?.action_right?.length * 60) : 0}]}
             style={styles.gipol}
             >
             
@@ -85,7 +85,7 @@ export const ListItem = ({ item }, viewHandler, redationHandler, deleteHandler, 
             >
                 <View style={styles.line}>
                     <View style={styles.line_dop}>
-                    <View style={styles.circl} />
+                    <View style={[styles.circl, item?.color ? {backgroundColor: item?.color} : null]} />
                     <View style={styles.bling}>
                         <Text
                         style={[

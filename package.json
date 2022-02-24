@@ -18,6 +18,9 @@
     "@react-navigation/stack": "^5.14.5",
     "react": "17.0.2",
     "react-native": "0.66.3",
+    "react-native-autoheight-webview": "^1.6.1",
+    "react-native-chart-kit": "^6.12.0",
+    "react-native-chartjs": "^1.0.3",
     "react-native-custom-header": "^1.0.0",
     "react-native-datepicker": "^1.7.2",
     "react-native-document-picker": "^7.1.2",
@@ -33,7 +36,8 @@
     "react-native-screens": "^3.1.1",
     "react-native-svg": "^12.1.1",
     "react-native-tab-view": "^2.16.0",
-    "react-native-vector-icons": "^9.0.0"
+    "react-native-vector-icons": "^9.0.0",
+    "react-native-webview": "^11.17.2"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

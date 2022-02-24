@@ -22,7 +22,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { TextInput } from 'react-native-gesture-handler';
 
 
-export const Menu = ({ navigation, status }) => {
+export const Menu = ({ navigation, status, noActive }) => {
     const menuRoot = useContext(MenuContext);
     const settingDataRoot = useContext(SettingDataContext);
     const dataRoot = useContext(DataContext);
@@ -82,7 +82,7 @@ export const Menu = ({ navigation, status }) => {
         menuRoot.menuHandler(item);
         switch(item.url[0]){
             case '/setting':
-                navigation.navigate('Setting')
+                navigation.navigate('Setting');
         }
     }
 
@@ -95,16 +95,20 @@ export const Menu = ({ navigation, status }) => {
     }
 
     const itemMenuHandler = (item) => {
-        console.log('aaddddd');
         dataRoot.addFilter(null);
         set_is_open(false);
         settingDataRoot.clearData();
-        if(!item.status_const){ 
-            menuRoot.menuHandler(item); 
-            navigation.navigate({name: 'Home', params: {status: false}});
-        } 
-        else {
-            itemConstMenuHandler(item);
+        if(item.url[0] === "/dashboard") {
+            menuRoot.menuHandler(item);
+            navigation.navigate('Dashboard');
+        } else {
+            if(!item.status_const){ 
+                menuRoot.menuHandler(item); 
+                navigation.navigate({name: 'Home', params: {status: false}});
+            } 
+            else {
+                itemConstMenuHandler(item);
+            }
         }
     }
 
@@ -199,8 +203,8 @@ export const Menu = ({ navigation, status }) => {
             <View style={styles.posit_center}>
                 <View style={styles.box_circle}>
                 <TouchableOpacity 
-                style={status ? styles.circle : (menuRoot.activeMenu !== item_setting ? styles.circle : styles.circle_block)}
-                onPress={() => {status ? createHandler() : (menuRoot.activeMenu !== item_setting ? createHandler() : null)}}
+                style={status ? styles.circle : (menuRoot.activeMenu !== item_setting ? (noActive ? styles.circle_block : styles.circle) : styles.circle_block)}
+                onPress={() => {status ? createHandler() : (menuRoot.activeMenu !== item_setting ? (noActive ? null : createHandler()) : null)}}
                 >
                     <MenuSvgSelector id='plus' />
                 </TouchableOpacity>

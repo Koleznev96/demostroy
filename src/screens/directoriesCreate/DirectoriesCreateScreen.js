@@ -35,10 +35,14 @@ function DirectoriesCreateScreen({ navigation, route }) {
     useEffect(() => {
         const new_errors = {};
         settingDataRoot.form?.forEach(item => {
+            // console.log('sikis-', item, item.value)
             new_errors[item.name] = '';
+            if (item.value) {
+                changeRoot({name: item.name, value: item.value});
+            }
         });
         setErrorForm({...new_errors});
-    }, [])
+    }, [settingDataRoot.form]);
 
     const backHandler = () => {
         navigation.goBack();
@@ -63,13 +67,17 @@ function DirectoriesCreateScreen({ navigation, route }) {
 
     const createHandler = async() => {
         try {
-            const data = await request(`${auth.url_str}/mobile${url}/create`, 'POST', {...finalForm, token: auth.token}, {
+            // console.log('iiiiiiiiisak-', `${auth.url_str}/mobile${url.split("?")[0]}/create`, {...finalForm, token: auth.token} )
+            const data = await request(`${auth.url_str}/mobile${url.split("?")[0]}/create`, 'POST', {...finalForm, token: auth.token}, {
                 "Api-Language": auth.lenguage.value
             });
+            // console.log('11111')
             if (!data.error) {
+                // console.log('2222-', data)
                 settingDataRoot.newRender();
                 backHandler();
             } else {
+                // console.log('3333')
                 const new_errors = {...errorForm};
                 Object.entries(data.error).forEach(item => {
                     new_errors[item[0]] = item[1];
@@ -77,6 +85,7 @@ function DirectoriesCreateScreen({ navigation, route }) {
                 setErrorForm({...new_errors});
             }
         } catch (e) {
+            // console.log('4444-', e)
             settingDataRoot.newRender();
             backHandler();
         }

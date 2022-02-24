@@ -6,7 +6,6 @@ export const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'column',
         backgroundColor: Colors.SecondColor,
-
         // paddingBottom: 100,
     },
     coll: {

@@ -28,7 +28,6 @@ function CreateScreen({ navigation, route }) {
     const menuRoot = useContext(MenuContext);
     const dataRoot = useContext(DataContext);
     const dataLang = useContext(DataLangContext);
-    console.log('ggg9g', dataLang.data)
     const {loading, request, error, clearError} = useHttp();
     const [finalForm, setFinalForm] = useState({});
     const [errorForm, setErrorForm] = useState({});

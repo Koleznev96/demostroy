@@ -47,6 +47,13 @@ function HomeScreen({ navigation, route }) {
         if (route?.params?.status && navigation.getState().index === 0) {
             return false;
         }
+
+        // console.log('====', navigation.getState()['routes'][navigation.getState()['index']].name)
+
+        if (navigation.getState()['routes'][navigation.getState()['index']].name === "Home") return true;
+
+        if (navigation.getState()['routes'][navigation.getState()['index']].name === "Dashboard") return true;
+
         if (navigation.getState().index === 0) {
             return true;
         } else {
@@ -176,7 +183,8 @@ function HomeScreen({ navigation, route }) {
         else
             new_url = menuRoot.activeMenu.url[0];
         try {
-            const answer = await request(`${auth.url_str}/mobile${new_url}/delete?id=${id}&token=${auth.token}`, 'GET', null, {
+            // console.log('delete-url-', `${auth.url_str}/mobile${new_url.split("?")[0]}/delete?id=${id}&token=${auth.token}`)
+            const answer = await request(`${auth.url_str}/mobile${new_url.split("?")[0]}/delete?id=${id}&token=${auth.token}`, 'GET', null, {
                 "Api-Language": auth.lenguage.value
             });
         } catch (e) {}
@@ -271,10 +279,10 @@ function HomeScreen({ navigation, route }) {
                 <View style={styles.coll}>
                     <HeaderBreack data={{title: route?.params?.title, callback_back: backHandler, callback_menu: menuHandler}}/>
                 </View>
-                <FlatList 
+                <FlatList
                     refreshControl={
                         <RefreshControl
-                            refreshing={Refreshing}
+                            refreshing={settingDataRoot.refresh}
                             onRefresh={() => settingDataRoot.paginashion(true)}
                             colors={[Colors.Orange]}
                         />
@@ -283,7 +291,7 @@ function HomeScreen({ navigation, route }) {
                     data={settingDataRoot.data}
                     renderItem={(item, index) => ListItem(item, viewHandler, redationHandler, deleteHandler, settingDataRoot, stipoglot_l, itemHandler_l)}
                     keyExtractor={item => item.id}
-                    onEndReached={settingDataRoot.paginashion}
+                    onEndReached={() => settingDataRoot.paginashion(false)}
                     onEndReachedThreshold={0.3}
                 />
                 <Menu navigation={navigation} status={true}/>
@@ -296,10 +304,12 @@ function HomeScreen({ navigation, route }) {
                         <Search data={null} searchHandler={searchHandler} filterHandler={filterHandler}/>
                     </View>
                 </View>
+                <View style={{zIndex: -1, flex: 1,
+                flexDirection: 'column',}}>
                 <FlatList 
                     refreshControl={
                         <RefreshControl
-                            refreshing={Refreshing}
+                            refreshing={dataRoot.refresh}
                             onRefresh={() => dataRoot.paginashion(true)}
                             colors={[Colors.Orange]}
                         />
@@ -308,11 +318,12 @@ function HomeScreen({ navigation, route }) {
                     data={dataRoot.data}
                     renderItem={(item, index) => EventItem(item, viewHandler, redationHandler, deleteHandler, dataRoot, stipoglot, itemHandler)}
                     keyExtractor={item => item.id}
-                    onEndReached={dataRoot.paginashion}
+                    onEndReached={() => dataRoot.paginashion(false)}
                     onEndReachedThreshold={0.3}
-                    
+                    style={{zIndex: -1000}}
                 />
                 <Menu navigation={navigation}/>
+                </View>
                 </>
             )}
         </View>

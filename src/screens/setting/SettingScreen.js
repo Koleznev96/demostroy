@@ -59,8 +59,8 @@ function SettingScreen({ navigation }) {
         getItems();
     }, [isMenu]);
 
-    const GetIconsMenu = (nameIcom) => {
-        return <Icon style={styles.icon} name={nameIcom?.slice(6, nameIcom.length)} size={18} color={Colors.Orange} />;
+    const GetIconsMenu = (nameIcom, index) => {
+        return <Icon key={index} style={styles.icon} name={nameIcom?.slice(6, nameIcom.length)} size={18} color={Colors.Orange} />;
     }
 
     const callback_person = () => {
@@ -104,12 +104,13 @@ function SettingScreen({ navigation }) {
             <ScrollView style={styles.scrollView}>
             <View style={styles.items_menu}>
                 <View style={styles.column}>
-                {items?.map((item, index) => GetIconsMenu(item.icon))}
+                {items?.map((item, index) => GetIconsMenu(item.icon, index))}
                 </View>
                 <View style={styles.column_button}>
                 {items?.map((item, index) => (
                     <>
                     <TouchableOpacity
+                    key={index}
                     style={styles.button_item}
                     onPress={() => menuHandler(item.url[0], item.label)}
                     >

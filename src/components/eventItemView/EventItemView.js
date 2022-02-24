@@ -44,11 +44,9 @@ export const EventItemView = ({ item, viewHandler, dataRoot, form }) => {
             onPress={() => viewHandler(item)}
             >
                 {item ? (
-
-                
                 <View style={styles.line}>
                     <View style={styles.line_dop}>
-                    <View style={styles.circl} />
+                    <View style={[styles.circl, item?.color ? {backgroundColor: item?.color} : null]} />
                     <View style={styles.bling}>
                         <Text
                         style={[

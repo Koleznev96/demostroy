@@ -12,7 +12,6 @@ import { PopapContext } from "../../../context/PopapContext";
 
 
 export const DropDownForm = ({ data }) => {
-    console.log('----', data.lang)
     const popapRoot = useContext(PopapContext);
     
     const [value, setValue] = useState(null);

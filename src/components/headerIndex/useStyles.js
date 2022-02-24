@@ -14,8 +14,9 @@ export const styles = StyleSheet.create({
     },
     blur: {
         position: 'absolute',
-        zIndex: 5000,
+        zIndex: 2000,
         backgroundColor: 'rgba(0, 0, 0, 0.45)',
+        // backgroundColor: '#fff',
         top: Platform.OS === 'ios' ? 35 : 0,
         bottom: 0,
         left: 0,
@@ -30,7 +31,7 @@ export const styles = StyleSheet.create({
         backgroundColor: Colors.SecondColor,
         borderBottomRightRadius: 20,
         borderBottomLeftRadius: 20,
-        zIndex: 3001,
+        zIndex: 5001,
     },
     button_exit: {
         height: 20,

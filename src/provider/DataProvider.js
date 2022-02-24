@@ -18,6 +18,7 @@ export const DataProvider = ({children, ...props}) => {
     const [filter, setFilter] = useState(null);
     const [settingTabl, setSettingTabl] = useState(null);
     const [settingActiveTabl, setSettingActiveTabl] = useState(null);
+    const [refresh, setRefresh] = useState(false);
 
     const addFilter = (data_filter) => {
         setFilter(data_filter);
@@ -72,11 +73,14 @@ export const DataProvider = ({children, ...props}) => {
     }
 
     const getRoot = async () => {
+        // console.log('vvv-111');
+        setRefresh(true);
         setForm(null);
         setData(null);
         setAction(null);
         setPage(0);
         let get_filter = '';
+        // console.log('vvv-222');
         if (filter) {
             get_filter = '&';
             let main_data = Object.entries(filter);
@@ -84,15 +88,22 @@ export const DataProvider = ({children, ...props}) => {
                 get_filter = get_filter + main_data[i][0] + '=' + main_data[i][1] + ((i !==  main_data.length - 1) ? '&' : '');
             }
         }
+        // console.log('vvv-333');
         try {
+            // console.log('vvv-url:', `${auth.url_str}/mobile${menuRoot.activeMenu.url[0]}/index?token=${auth.token}&p=0` + get_filter);
             const data = await request(`${auth.url_str}/mobile${menuRoot.activeMenu.url[0]}/index?token=${auth.token}&p=0` + get_filter, 'GET', null, {
                 "Api-Language": auth.lenguage.value
             });
-            setData(data.data);
-            setForm(data.form);
-            setAction({action_left: data.action_left, action_right: data.action_right});
-            getSettingTabl(data.form);
-        } catch (e) {}
+            // console.log('vvv-data:', data);
+            // console.log('vvv-form:', form);
+            setData(data?.data);
+            setForm(data?.form);
+            setAction({action_left: data?.action_left, action_right: data?.action_right});
+            getSettingTabl(data?.form);
+        } catch (e) {
+            // console.log('vvv-err:', e)
+        }
+        setRefresh(false);
     };
 
     const editSettingTabl = async (data) => {
@@ -118,12 +129,14 @@ export const DataProvider = ({children, ...props}) => {
     };
 
     useEffect(() => {
+        // console.log('----', menuRoot.activeMenu, render, filter)
         getRoot();
         // getSettingTabl();
     }, [menuRoot.activeMenu, render, filter]);
 
     const paginashion = async (lol) => {
-        if (lol) {
+        if (lol === true) {
+            setRefresh(true);
             setPage(0);
         } else {
             setPage(page+1);
@@ -148,7 +161,11 @@ export const DataProvider = ({children, ...props}) => {
                 const new_data = data.concat(answer.data)
                 setData(new_data);
             }
+            setForm(answer?.form);
+            setAction({action_left: answer?.action_left, action_right: answer?.action_right});
+            getSettingTabl(answer.form);
         } catch (e) {}
+        setRefresh(false);
     };
 
     const editActiob = (def) => {
@@ -157,6 +174,7 @@ export const DataProvider = ({children, ...props}) => {
 
     return <DataContext.Provider
         value={{
+            refresh,
             form,
             data,
             action,

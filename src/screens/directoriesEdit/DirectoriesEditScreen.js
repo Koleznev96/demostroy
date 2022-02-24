@@ -33,9 +33,12 @@ function DirectoriesEditScreen({ navigation, route }) {
     const [errorForm, setErrorForm] = useState({});
     const [data, setData] = useState(null);
 
+    // console.log('99', settingDataRoot.form)
+
     const getData = async () => {
         try {
-            const answer = await request(`${auth.url_str}/mobile${url}/view?token=${auth.token}&id=${route.params?.data?.id}`, 'GET', null, {
+            // console.log('retr-', `${auth.url_str}/mobile${url.split("?")[0]}/view?token=${auth.token}&id=${route?.params?.data?.id}`);
+            const answer = await request(`${auth.url_str}/mobile${url.split("?")[0]}/view?token=${auth.token}&id=${route.params?.data?.id}`, 'GET', null, {
                 "Api-Language": auth.lenguage.value
             });
             setData(answer.data);
@@ -81,7 +84,10 @@ function DirectoriesEditScreen({ navigation, route }) {
 
     const createHandler = async() => {
         try {
-            const data = await request(`${auth.url_str}/mobile${url}/update?id=${route.params?.data?.id}`, 'POST', {...finalForm, token: auth.token}, {
+            // https://serv.teo-crm.com/mobile/order/view?token=admin||$2y$13$gxUPkQkLs35mYpMp8eJ6mOgc6d6AHvuImqStO7I8lit7gfjMseC7O&id=168
+            // console.log('pill-', `${auth.url_str}/mobile${url.split("?")[0]}/update?token=${auth.token}&id=${route?.params?.data?.id}`, {...finalForm, token: auth.token});
+            // console.log('hhh-id-', route?.params?.data?.id)
+            const data = await request(`${auth.url_str}/mobile${url.split("?")[0]}/update?token=${auth.token}&id=${route?.params?.data?.id}`, 'POST', {...finalForm, token: auth.token}, {
                 "Api-Language": auth.lenguage.value
             });
             

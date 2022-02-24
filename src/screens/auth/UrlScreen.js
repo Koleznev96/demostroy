@@ -30,15 +30,11 @@ function UrlScreen({ navigation }) {
         }
         setErrorField('');
         try {
-            const data = await request(`${urlField}/mobile`, 'GET', null, {
+            const data = await request(`${urlField.trim()}/mobile`, 'GET', null, {
                 "Api-Language": auth.lenguage.value
             });
             if (data && data[0] === 'seccess') {
-                auth.logUrl(urlField);
-                navigation.navigate({
-                    name: 'Login',
-                    params: {url: urlField},
-                });
+                auth.logUrl(urlField.trim());
             } else {
                 setErrorField('Не вернно введен адрес');
             }

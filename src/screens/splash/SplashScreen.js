@@ -1,26 +1,25 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect} from 'react';
 import {
   View,
-  Text,
-  TouchableOpacity,
-  Dimensions,
-  StyleSheet,
-  StatusBar,
-  Image,
 } from 'react-native';
 import { styles } from "./useStyles";
-import { AuthContext } from "../../context/authContext";
 import { GlobalSvgSelector } from '../../assets/GlobalSvgSelector';
 import {Loader} from "../../components/loader/Loader";
 import {Footer} from "../../components/footer/Footer";
+import {MenuContext} from "../../context/MenuContext";
 
 
 const SplashScreen = ({navigation}) => {
-  const auth = useContext(AuthContext);
+  const menuRoot = useContext(MenuContext);
 
-  setTimeout(function () {
-    navigation.navigate('Root')
-  }, 3000);
+  useEffect(() => {
+    if (menuRoot.listMenu && menuRoot.listMenu[0]?.url[0] === "/dashboard") {
+      menuRoot.menuHandler(menuRoot.listMenu[0]);
+      navigation.navigate('Dashboard');
+    } else {
+      navigation.navigate('Home');
+    }
+  }, [menuRoot.listMenu])
 
   return (
     <View style={styles.container}>

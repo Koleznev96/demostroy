@@ -3,6 +3,7 @@ import {createContext} from "react";
 function noop(){}
 
 export const SettingDataContext = createContext({
+    refresh: null,
     form: null,
     data: null,
     action: null,
