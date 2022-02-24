@@ -9,15 +9,11 @@ export const useHttp = () => {
     const request = useCallback(async (url, method = 'GET', body = null, headers = {}) => {
         setLoading(true);
 
-        // if (auth.url_str) {
-        //     url = auth.url_str + url;
-        // }
         try {
             if (body) {
                 body = JSON.stringify(body);
                 headers['Content-Type'] = 'application/json';
             }
-            // console.log('url-', url);
             let response = await fetch(url, {method, body, headers})
 
             if (!response.ok && response.status === 401) {
@@ -39,7 +35,6 @@ export const useHttp = () => {
 
             return data
         } catch (e) {
-            // console.log("e-", e)
             setLoading(false)
             setError(e.message)
             throw e

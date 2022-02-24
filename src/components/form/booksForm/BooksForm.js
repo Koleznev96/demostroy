@@ -5,7 +5,9 @@ import {
     Pressable,
     TouchableOpacity,
     TextInput,
-    FlatList
+    FlatList,
+    ActivityIndicator,
+    ScrollView
 } from 'react-native';
 import {styles} from "./useStyles";
 import GlobalStyle from "../../GlobalStyle";
@@ -49,13 +51,18 @@ export const BooksForm = ({ data }) => {
 
     const DataPopap = () => {
         const [data_an, set_data_an] = useState([]);
+        const [refresh, setRefresh] = useState(false);
+
         const getSearch = async (str) => {
+            setRefresh(true);
             try {
+                // console.log('===))', `${auth.url_str}/mobile/${data.url}?token=${auth.token}&${data.filter}=${str}`)
                 const answer = await request(`${auth.url_str}/mobile/${data.url}?token=${auth.token}&${data.filter}=${str}`, 'GET', null, {
                     "Api-Language": auth.lenguage.value
                 });
-                set_data_an([...answer.data]);
+               set_data_an([...answer.data]);
             } catch (e) {}
+            setTimeout(() => setRefresh(false), 10);
         }
 
         useEffect(() => {
@@ -77,6 +84,32 @@ export const BooksForm = ({ data }) => {
                 <GlobalSvgSelector id='search' />
             </View>
             <View style={styles.block_items}>
+            {refresh ? (
+                <View style={{width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center',}}>
+                    <ActivityIndicator size={26} color={Colors.Orange} style={styles.loader}/>
+                </View>
+            ) : (
+            data_an?.length === 0 ? (
+                <Text style={[GlobalStyle.CustomFontRegular, styles.item]}>Записи не найдены</Text>
+            ) : (
+            // <FlatList
+            //         contentContainerStyle={styles.scrollView}
+            //         data={data_an}
+            //         renderItem={(item, index) => (
+            //             <>
+            //                 <TouchableOpacity
+            //                 style={styles.button_item}
+            //                 onPress={() => itemHandler(item)}
+            //                 >
+            //                     <Text style={[GlobalStyle.CustomFontRegular, styles.item]}>{item[data.filter]}</Text>
+            //                 </TouchableOpacity>
+            //                 <View style={index !== data_an?.length - 1 ? styles.hr : null} />
+            //             </>
+            //         )}
+            //         keyExtractor={item => item.id}
+            //     />
+                // 
+            <ScrollView style={{width: '100%', maxHeight: 300,}}>
             {data_an?.map((item, index) => (
                 <>
                 <TouchableOpacity
@@ -86,8 +119,9 @@ export const BooksForm = ({ data }) => {
                     <Text style={[GlobalStyle.CustomFontRegular, styles.item]}>{item[data.filter]}</Text>
                 </TouchableOpacity>
                 <View style={index !== data_an?.length - 1 ? styles.hr : null} />
-            </>
-            ))}
+            </>))}</ScrollView>
+            ))
+            }
             </View>
         </>
         );

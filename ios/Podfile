@@ -12,6 +12,8 @@ target 'demostroy' do
     :hermes_enabled => false
   )
 
+  pod 'react-native-webview', :path => '../node_modules/react-native-webview'
+
   target 'demostroyTests' do
     inherit! :complete
     # Pods for testing

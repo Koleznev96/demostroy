@@ -22,14 +22,8 @@ export const FileForm = ({ data }) => {
         try {
             const res = await DocumentPicker.pick({
               type: [DocumentPicker.types.allFiles],
-            })
-            // console.log(
-            //     res,
-            //     res[0].uri,
-            //     res[0].type, // mime type
-            //     res[0].name,
-            // )
-            uploadFile(res[0].uri, res[0].name, res[0].type)
+            });
+            uploadFile(res[0].uri, res[0].name, res[0].type);
         } catch (err) {
             if (DocumentPicker.isCancel(err)) {
                 // User cancelled the picker, exit any dialogs or menus and move on
@@ -55,11 +49,9 @@ export const FileForm = ({ data }) => {
                 setIsUploading(false);
             } else {
                 setIsUploading(false);
-                // console.log('Error', response);
             }
         }).catch(() => {
             setIsUploading(false);
-            // console.log('Error', 'Error on network.');
         })
     }
 

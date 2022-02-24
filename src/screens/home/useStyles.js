@@ -6,11 +6,10 @@ export const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'column',
         backgroundColor: Colors.SecondColor,
-
         // paddingBottom: 100,
     },
     coll: {
-        zIndex: 2500,
+        zIndex: Platform.OS === 'ios' ? 2500 : 0,
         paddingHorizontal: 20,
     },
     header_search: {

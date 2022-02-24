@@ -40,9 +40,9 @@ function ListScreen({ navigation, route }) {
             const answer = await request(`${auth.url_str}/mobile${url}?token=${auth.token}`, 'GET', null, {
                 "Api-Language": auth.lenguage.value
             });
-            setData(answer.data);
-            setForm(answer.form);
-            setAction({action_left: answer.action_left, action_right: answer.action_right});
+            setData(answer?.data);
+            setForm(answer?.form);
+            setAction({action_left: answer?.action_left, action_right: answer?.action_right});
         } catch (e) {}
     }
 

@@ -11,9 +11,11 @@ import { AuthContext } from "../../context/authContext";
 
 import HomeScreen from './screens/home/HomeScreen';
 import SettingScreen from './screens/setting/SettingScreen';
+import DashboardScreen from './screens/dashboard/DashboardScreen';
 
 import UrlScreen from './screens/auth/UrlScreen';
 import SplashScreen from './screens/splash/SplashScreen';
+import SplashOneScreen from './screens/splash/SplashOneScreen';
 import AuthorizationScreen from './screens/auth/AuthorizationScreen';
 import ViewScreen from './screens/view/ViewScreen';
 import DitailsScreen from './screens/ditails/DitailsScreen';
@@ -99,8 +101,10 @@ const Tab = createBottomTabNavigator();
 const StackRootRoutes = (isAuth, isUrl) => {
   if (isAuth)
   return ( 
-    <Stack.Navigator initialRouteName='Home'>
+    <Stack.Navigator initialRouteName='Splash'>
+      <Stack.Screen name='Splash' component={SplashScreen} options={{ headerShown: false }}/>
       <Stack.Screen name='Home' component={HomeScreen} options={{ headerShown: false }}/>
+      <Stack.Screen name='Dashboard' component={DashboardScreen} options={{ headerShown: false }}/>
       {/* <Stack.Screen name="Home" options={{ headerShown: false }}>
         {props => <HomeScreen {...props} />}
       </Stack.Screen> */}
@@ -117,14 +121,22 @@ const StackRootRoutes = (isAuth, isUrl) => {
       <Stack.Screen name='Profile' component={ProfileScreen} options={{ headerShown: false }}/>
     </Stack.Navigator>
   );
-  else
-  return ( 
-    <Stack.Navigator initialRouteName={isUrl ? 'Login' : 'Url'}>
-      {/* <Stack.Screen name='Profile' component={ProfileScreen} options={{ headerShown: false }}/> */}
-      <Stack.Screen name='Url' component={UrlScreen} options={{ headerShown: false }}/>
-      <Stack.Screen name='Login' component={AuthorizationScreen} options={{ headerShown: false }}/>
-    </Stack.Navigator>
-  );
+  else {
+    if (isUrl && !isAuth) 
+    return ( 
+      <Stack.Navigator initialRouteName={'Login'}>
+        <Stack.Screen name='Login' component={AuthorizationScreen} options={{ headerShown: false }}/>
+      </Stack.Navigator>
+    );
+    else
+    return ( 
+      <Stack.Navigator initialRouteName={'Url'}>
+        {/* <Stack.Screen name='Profile' component={ProfileScreen} options={{ headerShown: false }}/> */}
+        <Stack.Screen name='Url' component={UrlScreen} options={{ headerShown: false }}/>
+        {/* <Stack.Screen name='Login' component={AuthorizationScreen} options={{ headerShown: false }}/> */}
+      </Stack.Navigator>
+    );
+  }
 }
 
 
@@ -134,8 +146,8 @@ export const Routes = (isAuth, isUrl) => {
 
   return ( 
     <NavigationContainer>
-      <Stack.Navigator initialRouteName='Splash'>
-        <Stack.Screen name='Splash' component={SplashScreen} options={{ headerShown: false }}/>
+      <Stack.Navigator initialRouteName='SplashOne'>
+        <Stack.Screen name='SplashOne' component={SplashOneScreen} options={{ headerShown: false }}/>
         <Stack.Screen name='Root' component={() => StackRootRoutes(isAuth, isUrl)} options={{ headerShown: false }}/>
       </Stack.Navigator>
     </NavigationContainer>

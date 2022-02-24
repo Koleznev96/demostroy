@@ -89,6 +89,7 @@ function ViewScreen({ navigation, route }) {
         settingDataContext.setTitle(title_p);
         settingDataContext.setVilkt(1);
         // settingDataContext.setBackTo_r('view', {data, url, type: true, title: title, let_rout: route.params?.let_rout});
+        // console.log('setup-', settingDataContext.url, url_set)
         settingDataContext.setUrl(url_set, true);
         // settingDataContext.newRender();
         // navigation.navigate({
@@ -121,7 +122,9 @@ function ViewScreen({ navigation, route }) {
                 <View style={styles.container}>
                     <View style={styles.items_menu}>
                     {
-                    event?.mini_menu?.items?.map((item, index) => (
+                    event?.mini_menu?.items?.map((item, index) => {
+                        // console.log('pppp-', item)
+                    return (
                         <>
                         <TouchableOpacity
                         style={styles.button_item}
@@ -132,7 +135,7 @@ function ViewScreen({ navigation, route }) {
                         </TouchableOpacity>
                         <View style={index !== event?.mini_menu?.items?.length - 1 ? styles.hr : null} />
                         </>
-                    ))}
+                    )})}
                     </View>
                 </View>
                 ) : (

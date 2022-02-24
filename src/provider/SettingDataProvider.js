@@ -21,6 +21,7 @@ export const SettingDataProvider = ({children, ...props}) => {
     const [page, setPage] = useState(0);
     const [filter, setFilter] = useState(null);
     const [vilkt, setVilkt] = useState(0);
+    const [refresh, setRefresh] = useState(false);
 
     const addFilter = (data_filter) => {
     }
@@ -50,13 +51,16 @@ export const SettingDataProvider = ({children, ...props}) => {
             set_type(false);
         }
         set_url(url);
+        setRender(!render);
     }
 
     const getRoot = async () => {
+        setRefresh(true);
         setForm(null);
         setData(null);
         setAction(null);
         setPage(0);
+        // console.log('zzz-111')
         let get_filter = '';
         if (filter) {
             get_filter = '&';
@@ -65,8 +69,10 @@ export const SettingDataProvider = ({children, ...props}) => {
                 get_filter = get_filter + main_data[i][0] + '=' + main_data[i][1] + ((i !==  main_data.length - 1) ? '&' : '');
             }
         }
+        // console.log('zzz-2222')
         try {
             let answer;
+            // console.log('zzz-limon-', type, `${auth.url_str}/mobile${url}&token=${auth.token}&p=0`)
             if (type)
                 answer = await request(`${auth.url_str}/mobile${url}&token=${auth.token}&p=0` + get_filter, 'GET', null, {
                     "Api-Language": auth.lenguage.value
@@ -75,20 +81,29 @@ export const SettingDataProvider = ({children, ...props}) => {
                 answer = await request(`${auth.url_str}/mobile${url}?token=${auth.token}&p=0` + get_filter, 'GET', null, {
                     "Api-Language": auth.lenguage.value
                 });
-            setData([...answer.data]);
-            setForm(answer.form);
-            setAction({action_left: answer.action_left, action_right: answer.action_right});
-        } catch (e) {}
+            // console.log('zzz-answer:', answer)
+            // console.log('zzz-form:', answer.form)
+            setData([...answer?.data]);
+            setForm(answer?.form);
+            setAction({action_left: answer?.action_left, action_right: answer?.action_right});
+            // console.log('zzz-333')
+        } catch (e) {
+            // console.log('zzz-errr-', e)
+        }
+        setRefresh(false);
     }
 
     useEffect(() => {
         getRoot();
     }, [render, url, filter]);
 
-    const paginashion = async (lol) => {
-        if (!lol) {
+    const paginashion = async (lol) => {     
+        if (lol !== true) {
+            // console.log('111-', lol)
             setPage(page+1);
         } else {
+            // console.log('222-', lol)
+            setRefresh(true);
             setPage(0);
         }
 
@@ -103,6 +118,7 @@ export const SettingDataProvider = ({children, ...props}) => {
 
         try {
             let answer;
+            // console.log('pilot-', type, `${auth.url_str}/mobile${url}&token=${auth.token}&p=${lol ? 0 : (page+1)}` + get_filter)
             if (type)
                 answer = await request(`${auth.url_str}/mobile${url}&token=${auth.token}&p=${lol ? 0 : (page+1)}` + get_filter, 'GET', null, {
                     "Api-Language": auth.lenguage.value
@@ -111,16 +127,27 @@ export const SettingDataProvider = ({children, ...props}) => {
                 answer = await request(`${auth.url_str}/mobile${url}?token=${auth.token}&p=${lol ? 0 : (page+1)}` + get_filter, 'GET', null, {
                     "Api-Language": auth.lenguage.value
                 });
+            // console.log('bbb-answer:', answer);
+            // console.log('bbb-lol:', lol);
             if (lol) {
+                // console.log('bbb-data:', answer.data);
                 setData(answer.data);
             } else {
-                const new_data = data.concat(answer.data)
+                // console.log('bbb-data:', answer.data);
+                const new_data = data.concat(answer.data);
+                // console.log('bbb-new_data:', new_data);
                 setData(new_data);
             }
-        } catch (e) {}
+            setForm(answer.form);
+            setAction({action_left: answer?.action_left, action_right: answer?.action_right});
+        } catch (e) {
+            // console.log('bbb-err:', e);
+        }
+        setRefresh(false);
     };
 
     const clearData = () => {
+        // console.log('zzz-clearr-form!!!!!!!!!!!!!!!!!!!!!!!!');
         setData(null);
         setForm(null);
         setAction(null);
@@ -128,6 +155,7 @@ export const SettingDataProvider = ({children, ...props}) => {
 
     return <SettingDataContext.Provider
         value={{
+            refresh,
             form,
             data,
             action,

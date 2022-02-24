@@ -20,11 +20,9 @@ export const DataLangProvider = ({children, ...props}) => {
 
     const getRoot = async () => {
         try {
-            console.log('polll')
             const data_new = await request(`${auth.url_str}/mobile/default/get-lang-const`, 'GET', null, {
                 "Api-Language": auth.lenguage.value
             });
-            console.log('1111-', data_new)
             setData(data_new);
         } catch (e) {}
     };

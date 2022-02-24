@@ -6,6 +6,9 @@ export const styles = StyleSheet.create({
     root: {
         marginBottom: 20,
     },
+    scrollView: {
+        maxHeight: 600,
+    },
     input: {
         width: '100%',
         // paddingHorizontal: 2,
@@ -39,6 +42,9 @@ export const styles = StyleSheet.create({
     block_items: {
         marginBottom: 13,
         paddingHorizontal: 25,
+    },
+    loader: {
+
     },
     button_item: {
         width: '100%',

@@ -47,7 +47,7 @@ function AuthorizationScreen({ navigation }) {
             password: '',
         });
         try {
-            const data = await request(`${auth.url_str}/mobile/default/login`, 'POST', {username: login, password}, {
+            const data = await request(`${auth.url_str}/mobile/default/login`, 'POST', {username: login.trim(), password: password.trim()}, {
                 "Api-Language": auth.lenguage.value
             });
             auth.login(data.token);
