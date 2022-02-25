@@ -28,7 +28,10 @@ const {width, height} = Dimensions.get('screen');
 class DraggyInner extends React.Component {
     render() {
         if (this.props.dragOver && !this.props.ghost && !this.props.dragging) {
-            LayoutAnimation.easeInEaseOut();
+            // LayoutAnimation.easeInEaseOut();
+            LayoutAnimation.configureNext({
+                useNativeDriver: true,
+            });
             return (
                 <View style={{
                     marginLeft: 8,
@@ -99,7 +102,10 @@ class DraggyInner extends React.Component {
 class DraggyInsert extends React.Component {
     render() {
         if (this.props.dragOver && !this.props.ghost && !this.props.dragging) {
-            LayoutAnimation.easeInEaseOut();
+            // LayoutAnimation.easeInEaseOut();
+            LayoutAnimation.configureNext({
+                useNativeDriver: true,
+            });
             return (
                 <View style={{width: width-40, height: 60,}} />
             );
@@ -234,6 +240,9 @@ function SettingTablScreen({ navigation }) {
                 new_data.push([{...state?.alphabets[i][0]}, state?.alphabets[i][1] ? {...state?.alphabets[i][1]} : null]);
             }
         }
+        // let new_state = state;
+        // new_state.alphabets = new_data;
+        // setState(new_state);
         setState({...state, alphabets: [...new_data]});
     }
     
@@ -244,6 +253,8 @@ function SettingTablScreen({ navigation }) {
     const zvon = () => {
         Vibration.vibrate(100);
     }
+
+    const [statusScroll, setStatusScroll] = useState(true);
     
     return (
         <>
@@ -251,13 +262,18 @@ function SettingTablScreen({ navigation }) {
 
         <View style={styles.body}>
             <HeaderBreack data={{title: 'Настройки таблицы', callback_back: backHandler}}/>
-            <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
+            <ScrollView 
+            // scrollEnabled={statusScroll}
+            style={styles.scrollView} showsVerticalScrollIndicator={false}
+            >
                 <DragContainer
-                onDragStart={() => zvon()}
+                onDragStart={() => {zvon(); setStatusScroll(false);}}
+                onDragEnd={() => {
+                    setStatusScroll(true);}}
                 >
                     {state?.alphabets?.map((item, index) => {
                         return (
-                            <>
+                            <View key={index}>
                             <Draggable data={item[0]}>
                                 <DropZone
                                 onDrop={e => onInsert(e, index, false, [index, 0])}
@@ -276,7 +292,7 @@ function SettingTablScreen({ navigation }) {
                                 justifyContent: 'space-between'
                             }}>
                             <Draggy
-                            key={index}
+                            // key={index}
                             status={item[1] ? true : false}
                             liner={[index, 0]}
                             alphabet={item[0]}
@@ -289,7 +305,7 @@ function SettingTablScreen({ navigation }) {
                             
                             {item[1] ? (
                             <Draggy
-                            key={index}
+                            // key={index}
                             status={item[1] ? true : false}
                             liner={[index, 1]}
                             alphabet={item[1]}
@@ -301,7 +317,7 @@ function SettingTablScreen({ navigation }) {
                             />
                             ) : null}
                             </View>
-                            </>
+                            </View>
                         )
                     })}
                 </DragContainer>

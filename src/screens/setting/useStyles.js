@@ -75,7 +75,7 @@ export const styles = StyleSheet.create({
         justifyContent: 'center',
         height: 34,
         borderRadius: 13,
-        ...Colors.BoxShadow,
+        // ...Colors.BoxShadow,
         backgroundColor: Colors.ColorInput,
     },
     button_menu_active: {
