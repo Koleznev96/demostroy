@@ -9,6 +9,17 @@ export const Colors = {
     TextBlack: 'rgba(255, 255, 255, 0.5)',
     ColorInput: '#60687E',
     ColorIcon: '#CBD9FF',
+    BoxShadowNew: {
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: -7,
+        },
+        shadowOpacity: 0.43,
+        shadowRadius: 9.51,
+
+        elevation: 15,
+    },
     BoxShadow: {
         shadowColor: "#000",
         shadowOffset: {

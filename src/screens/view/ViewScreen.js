@@ -77,9 +77,10 @@ function ViewScreen({ navigation, route }) {
             const answer = await request(`${auth.url_str}/mobile${url}/view?token=${auth.token}&id=${data.id}`, 'GET', null, {
                 "Api-Language": auth.lenguage.value
             });
-            // console.log('mini_menu.items-', answer?.mini_menu?.items)
+            // console.log('answer-', answer)
             setEvent(answer);
         } catch (e) {
+            console.log('err-', e)
         }
     }
 

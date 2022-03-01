@@ -1,8 +1,10 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {
     Text,
     View,
 } from 'react-native';
+import { AuthContext } from "../../../context/authContext";
+import { useHttp } from "../../../hooks/http.hook";
 import {styles} from "./useStyles";
 import GlobalStyle from "../../GlobalStyle";
 import { MainIcon } from '../../mainIcon/MainIcon';
@@ -10,16 +12,34 @@ import {SwithDashboard} from '../../swithDashboard/SwithDashboard';
 import {Colors} from "../../../utils/Colors";
 
 
-const listSwith = [
-    'Апрель'
-];
-
-
-export const BlockTopListDashboard = ({data, getData, clear_get}) => {
+export const BlockTopListDashboard = ({data, clear_get, setRefreshing}) => {
+    const auth = useContext(AuthContext);
+    const {loading, request, error, clearError} = useHttp();
     const [swithCurrent, setSwithCurrent] = useState(0);
     const [status, setStatus] = useState(false);
     const [buttonActive, setButtonActive] = useState(0);
     const [data_get, set_data_get] = useState({});
+    const [dataBox, setDataBox] = useState(null);
+
+    useEffect(() => {
+        if (data) {
+            setDataBox(data);
+        }
+    }, [data]);
+
+    const getData = async (data_get, name_block) => {
+        setRefreshing(true);
+        data_get = data_get ? `&${data_get}` : '';
+        console.log('8888-', `${auth.url_str}/mobile/dashboard?token=${auth.token}${data_get}`)
+        try {
+            const answer = await request(`${auth.url_str}/mobile/dashboard?token=${auth.token}${data_get}`, 'GET', null, {
+                "Api-Language": auth.lenguage.value
+            });
+            const new_data = answer.find(item => item.type === name_block);
+            setDataBox(new_data);
+        } catch(e) {}
+        setRefreshing(false);
+    }
 
     useEffect(() => {
         set_data_get({});
@@ -41,8 +61,8 @@ export const BlockTopListDashboard = ({data, getData, clear_get}) => {
     }
 
     useEffect(() => {
-        if (data) setSwithCurrent(data?.select?.data[0]);
-    }, [data]);
+        if (dataBox) setSwithCurrent(dataBox?.select?.data[0]);
+    }, [dataBox]);
 
     return (
         <>
@@ -53,13 +73,13 @@ export const BlockTopListDashboard = ({data, getData, clear_get}) => {
                 styles.block_label
             ]}
             >
-                {data?.label}
+                {dataBox?.label}
             </Text>
         </View>
         <View style={{paddingRight: 20, marginBottom: 15, marginTop: 14,}}>
-            <SwithDashboard listSwith={data?.select?.data} swithCurrent={swithCurrent} swithDashboardHandler={swithDashboardHandler} />
+            <SwithDashboard listSwith={dataBox?.select?.data} swithCurrent={swithCurrent} swithDashboardHandler={swithDashboardHandler} />
         </View>
-        {data?.list?.map((item, index) => (
+        {dataBox?.list?.map((item, index) => (
             <>
             <View style={styles.list_item}>
                 {item?.map((element, index_t) => (
@@ -92,7 +112,7 @@ export const BlockTopListDashboard = ({data, getData, clear_get}) => {
                 </View>
                 ))}
             </View>
-            {data?.list?.length - 1 !== index ? <View style={styles.hr} /> : null}
+            {dataBox?.list?.length - 1 !== index ? <View style={styles.hr} /> : null}
             </>
         ))}
         </>

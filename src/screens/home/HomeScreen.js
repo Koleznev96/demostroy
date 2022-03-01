@@ -67,7 +67,8 @@ function HomeScreen({ navigation, route }) {
         if (navigation.getState()['routes'][navigation.getState()['index']].name === "Home") return true;
 
         if (navigation.getState()['routes'][navigation.getState()['index']].name === "Dashboard") return true;
-
+        if (navigation.getState()['routes'][navigation.getState()['index']].name === "Chat") return true;
+        
         if (navigation.getState().index === 0) {
             return true;
         } else {

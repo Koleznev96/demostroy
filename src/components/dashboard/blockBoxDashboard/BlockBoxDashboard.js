@@ -9,7 +9,6 @@ import GlobalStyle from "../../GlobalStyle";
 
 
 export const BlockBoxDashboard = ({data}) => {
-
     return (
         <>
         <View style={styles.wrapper}>

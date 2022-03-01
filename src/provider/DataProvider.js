@@ -90,7 +90,7 @@ export const DataProvider = ({children, ...props}) => {
         }
         // console.log('vvv-333');
         try {
-            // console.log('vvv-url:', `${auth.url_str}/mobile${menuRoot.activeMenu.url[0]}/index?token=${auth.token}&p=0` + get_filter);
+            console.log('vvv-url:', `${auth.url_str}/mobile${menuRoot.activeMenu.url[0]}/index?token=${auth.token}&p=0` + get_filter);
             const data = await request(`${auth.url_str}/mobile${menuRoot.activeMenu.url[0]}/index?token=${auth.token}&p=0` + get_filter, 'GET', null, {
                 "Api-Language": auth.lenguage.value
             });

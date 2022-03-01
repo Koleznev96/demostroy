@@ -21,34 +21,35 @@ import { GlobalSvgSelector } from '../../assets/GlobalSvgSelector';
 import { TextInput } from 'react-native-gesture-handler';
 
 
-export const Search = ({ data, searchHandler, filterHandler }) => {
+export const Search = ({ value, searchHandler, filterHandler, setStrSearch }) => {
 
     const [str_search, set_str_search] = useState('');
 
     return (
         <View style={styles.root}>
-            <View style={styles.input}>
+            <View style={[styles.input, filterHandler ? null : {width: '100%'}]}>
                 <TextInput
+                value={value}
                 placeholder='Поиск'
                 placeholderTextColor={Colors.Placeholder}
-                onChangeText={(value) => set_str_search(value)}
+                onChangeText={(value) => setStrSearch(value)}
                 style={styles.text_input}
                 />
 
                 <TouchableOpacity
                 style={styles.button_search}
-                onPress={() => searchHandler(str_search)}
+                onPress={() => searchHandler()}
                 >
                 <GlobalSvgSelector id='search' />
                 </TouchableOpacity>
             </View>
-
+            {filterHandler ?
             <TouchableOpacity
                 style={styles.button_filter}
                 onPress={() => filterHandler()}
                 >
                 <GlobalSvgSelector id='filter' />
-            </TouchableOpacity>
+            </TouchableOpacity>: null}
         </View>
     );
 }

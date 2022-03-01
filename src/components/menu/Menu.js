@@ -98,7 +98,11 @@ export const Menu = ({ navigation, status, noActive }) => {
         dataRoot.addFilter(null);
         set_is_open(false);
         settingDataRoot.clearData();
-        if(item.url[0] === "/dashboard") {
+        console.log('ggpp-', item)
+        if(item.url[0] === "/user-chat") {
+            menuRoot.menuHandler(item);
+            navigation.navigate('Chat');
+        } else if(item.url[0] === "/dashboard") {
             menuRoot.menuHandler(item);
             navigation.navigate('Dashboard');
         } else {

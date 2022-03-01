@@ -18,6 +18,7 @@ import {DataProvider} from "./provider/DataProvider";
 import {DataLangProvider} from "./provider/DataLangProvider";
 import {SettingDataProvider} from "./provider/SettingDataProvider";
 import {PopapProvider} from "./provider/PopapProvider";
+import { ChatProvider } from "./provider/ChatProvider";
 
 
 const App = () => {
@@ -33,17 +34,19 @@ const App = () => {
     <AuthContext.Provider value={{
       token, url_str, login, logUrl, logout, fullLogout, lenguage, updateLenguage, ready
     }}>
-      <MenuProvider>
-        <DataProvider>
-          <DataLangProvider>
-            <SettingDataProvider>
-              <PopapProvider>
-                {routes}
-              </PopapProvider>
-            </SettingDataProvider>
-          </DataLangProvider>
-        </DataProvider>
-      </MenuProvider>
+      <ChatProvider>
+        <MenuProvider>
+          <DataProvider>
+            <DataLangProvider>
+              <SettingDataProvider>
+                <PopapProvider>
+                  {routes}
+                </PopapProvider>
+              </SettingDataProvider>
+            </DataLangProvider>
+          </DataProvider>
+        </MenuProvider>
+      </ChatProvider>
     </AuthContext.Provider>
     </View>
   );

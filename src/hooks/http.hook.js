@@ -35,6 +35,7 @@ export const useHttp = () => {
 
             return data
         } catch (e) {
+            // console.log('8888-', e)
             setLoading(false)
             setError(e.message)
             throw e

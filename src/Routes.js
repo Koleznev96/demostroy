@@ -12,6 +12,7 @@ import { AuthContext } from "../../context/authContext";
 import HomeScreen from './screens/home/HomeScreen';
 import SettingScreen from './screens/setting/SettingScreen';
 import DashboardScreen from './screens/dashboard/DashboardScreen';
+import ChatScreen from './screens/chat/ChatScreen';
 
 import UrlScreen from './screens/auth/UrlScreen';
 import SplashScreen from './screens/splash/SplashScreen';
@@ -21,6 +22,7 @@ import ViewScreen from './screens/view/ViewScreen';
 import DitailsScreen from './screens/ditails/DitailsScreen';
 import ListScreen from './screens/list/ListScreen';
 
+import DealogScreen from './screens/dealog/DealogScreen';
 import CreateScreen from './screens/create/CreateScreen';
 import DirectoriesCreateScreen from './screens/directoriesCreate/DirectoriesCreateScreen';
 import EditScreen from './screens/edit/EditScreen';
@@ -105,6 +107,8 @@ const StackRootRoutes = (isAuth, isUrl) => {
       <Stack.Screen name='Splash' component={SplashScreen} options={{ headerShown: false }}/>
       <Stack.Screen name='Home' component={HomeScreen} options={{ headerShown: false }}/>
       <Stack.Screen name='Dashboard' component={DashboardScreen} options={{ headerShown: false }}/>
+      <Stack.Screen name='Chat' component={ChatScreen} options={{ headerShown: false }}/>
+      <Stack.Screen name='Dealog' component={DealogScreen} options={{ headerShown: false }}/>
       {/* <Stack.Screen name="Home" options={{ headerShown: false }}>
         {props => <HomeScreen {...props} />}
       </Stack.Screen> */}

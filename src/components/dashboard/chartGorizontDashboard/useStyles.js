@@ -54,6 +54,7 @@ export const styles = StyleSheet.create({
         paddingRight: 20,
         borderTopRightRadius: 20,
         borderBottomRightRadius: 20,
+        minWidth: 60,
     },
     chart_item_value: {
         fontSize: 12,

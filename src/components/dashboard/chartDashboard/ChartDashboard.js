@@ -1,10 +1,12 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useContext} from 'react';
 import {
     Text,
     View,
     TouchableOpacity,
     Dimensions
 } from 'react-native';
+import { AuthContext } from "../../../context/authContext";
+import { useHttp } from "../../../hooks/http.hook";
 import {styles} from "./useStyles";
 import GlobalStyle from "../../GlobalStyle";
 import { MainIcon } from '../../mainIcon/MainIcon';
@@ -12,7 +14,9 @@ import {SwithDashboard} from '../../swithDashboard/SwithDashboard';
 import { LineChart } from "react-native-chart-kit";
 
 
-export const ChartDashboard = ({data, getData, clear_get}) => {
+export const ChartDashboard = ({data, clear_get, setRefreshing}) => {
+    const auth = useContext(AuthContext);
+    const {loading, request, error, clearError} = useHttp();
     const [swithCurrent, setSwithCurrent] = useState(null);
     const [buttonActive, setButtonActive] = useState(0);
     const [chartData, setChartData] = useState(null);
@@ -20,10 +24,31 @@ export const ChartDashboard = ({data, getData, clear_get}) => {
     const [data_get, set_data_get] = useState({});
     const [data_buton, set_data_buton] = useState(null);
     const [data_list, set_data_list] = useState(null);
+    const [dataBox, setDataBox] = useState(null);
 
     useEffect(() => {
         set_data_get({});
     }, [clear_get]);
+
+    useEffect(() => {
+        if (data) {
+            setDataBox(data);
+        }
+    }, [data]);
+
+    const getData = async (data_get, name_block) => {
+        setRefreshing(true);
+        data_get = data_get ? `&${data_get}` : '';
+        console.log('8888-', `${auth.url_str}/mobile/dashboard?token=${auth.token}${data_get}`)
+        try {
+            const answer = await request(`${auth.url_str}/mobile/dashboard?token=${auth.token}${data_get}`, 'GET', null, {
+                "Api-Language": auth.lenguage.value
+            });
+            const new_data = answer.find(item => item.type === name_block);
+            setDataBox(new_data);
+        } catch(e) {}
+        setRefreshing(false);
+    }
 
     // useEffect(() => {
 
@@ -49,28 +74,28 @@ export const ChartDashboard = ({data, getData, clear_get}) => {
     const swithDashboardHandler = async (index) => {
         setSwithCurrent(index);
         // console.log('--', `chart_button=${data?.button[0]?.color === "#EB9D40" ? "one" : "two"}&chart_data=${index.value}`)
-        getData(`chart_button=${data?.button[0]?.color === "#EB9D40" ? "one" : "two"}&chart_data=${index.value}`, 'chart');
+        getData(`chart_button=${dataBox?.button[0]?.color === "#EB9D40" ? "one" : "two"}&chart_data=${index.value}`, 'chart');
         // addDataGet('chart_data', index.value);
     }
 
     const buttonActiveHandler = async (status) => {
         // setButtonActive(status);
         // console.log('--', `chart_button=${status === 0 ? "one" : "two"}&chart_data=${data?.series?.data[0]?.value}`)
-        getData(`chart_button=${status === 0 ? "one" : "two"}&chart_data=${data?.series?.data[0]?.value}`, 'chart');
+        getData(`chart_button=${status === 0 ? "one" : "two"}&chart_data=${dataBox?.series?.data[0]?.value}`, 'chart');
         // addDataGet('chart_button', status === 0 ? "one" : "two");
     }
 
     useEffect(() => {
-        if (data) {
-            setSwithCurrent(data?.series?.data[0]);
-            setChartData(data?.select?.map(item => {return {
+        if (dataBox) {
+            setSwithCurrent(dataBox?.series?.data[0]);
+            setChartData(dataBox?.select?.map(item => {return {
                 data: item.data.map(el => el), 
                 color: (opacity = 1) => item.color, 
                 strokeWidth: 2
             }}));
-            setListLegends(data?.select?.map(item => item.name));
+            setListLegends(dataBox?.select?.map(item => item.name));
         }
-    }, [data]);
+    }, [dataBox]);
 
     return (
         <View>
@@ -81,29 +106,29 @@ export const ChartDashboard = ({data, getData, clear_get}) => {
                 styles.block_label
             ]}
             >
-                {data?.label}
+                {dataBox?.label}
             </Text>
             <View style={styles.wrapper_buttons}>
                 <TouchableOpacity
                 // style={{...styles.button, backgroundColor: data ? data['0']?.color : null}}
-                style={[styles.button, {backgroundColor: data?.button[0]?.color}]}
+                style={[styles.button, {backgroundColor: dataBox?.button[0]?.color}]}
                 onPress={() => buttonActiveHandler(0)}
                 >
-                    <MainIcon name={data?.button[0]?.icon} color={'#F7F8F9'} size={21} />
+                    <MainIcon name={dataBox?.button[0]?.icon} color={'#F7F8F9'} size={21} />
                 </TouchableOpacity>
                 <TouchableOpacity
                 // style={{...styles.button, backgroundColor: data ? data['1']?.color : null}}
-                style={[styles.button, {backgroundColor: data?.button[1]?.color}]}
+                style={[styles.button, {backgroundColor: dataBox?.button[1]?.color}]}
                 onPress={() => buttonActiveHandler(1)}
                 >
-                    <MainIcon name={data?.button[1]?.icon} color={'#232532'} size={21} />
+                    <MainIcon name={dataBox?.button[1]?.icon} color={'#232532'} size={21} />
                 </TouchableOpacity>
             </View>
         </View>
-        <SwithDashboard listSwith={data?.series?.data} swithCurrent={swithCurrent} swithDashboardHandler={swithDashboardHandler} />
+        <SwithDashboard listSwith={dataBox?.series?.data} swithCurrent={swithCurrent} swithDashboardHandler={swithDashboardHandler} />
         <LineChart
             data={{
-            labels: data?.categories?.map(item => (new Date(item)).getDate()),
+            labels: dataBox?.categories?.map(item => (new Date(item)).getDate()),
             datasets: chartData ? chartData : 
             [
                 { 

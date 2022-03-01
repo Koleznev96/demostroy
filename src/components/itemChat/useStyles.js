@@ -1,0 +1,59 @@
+import { StyleSheet, Platform, Dimensions } from 'react-native';
+import {Colors} from "../../utils/Colors";
+const {width, height} = Dimensions.get('screen');
+
+export const styles = StyleSheet.create({
+    rootSt: {
+        width: '100%',
+        height: 80,
+        paddingRight: 20,
+        paddingVertical: 15,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+    },
+    block: {
+        flexDirection: 'row',
+    },
+    avatar: {
+        width: 50,
+        height: 50,
+        borderRadius: 100,
+        marginRight: 9,
+        backgroundColor: Colors.ColorIcon,
+    },
+    box: {
+        width: width - 205,
+    },
+    box_l: {
+        width: 120,
+    },
+    label: {
+        fontSize: 16,
+    },
+    value: {
+        fontSize: 12,
+        color: '#CCCCCC',
+    },
+    time: {
+        fontSize: 12,
+        color: Colors.ColorIcon,
+        marginBottom: 6,
+    },
+    eleven: {
+        fontSize: 12,
+        width: 18,
+        height: 18,
+        backgroundColor: Colors.Orange,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 100,
+        textAlign: 'center',
+    },
+    liner: {
+        flexDirection: 'row',
+        justifyContent: 'flex-end',
+        marginTop: 5,
+        marginRight: 10,
+    },
+});
