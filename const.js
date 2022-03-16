@@ -3,3 +3,6 @@
 
 // herocku
 export const httpServer = "https://elsadchess.herokuapp.com";
+
+// versionApp
+export const versionApp = 2;

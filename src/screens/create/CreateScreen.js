@@ -14,6 +14,8 @@ import {InputForm} from "../../components/form/inputForm/InputForm";
 import {NumberForm} from "../../components/form/numberForm/NumberForm";
 import {DropDownForm} from "../../components/form/dropDownForm/DropDownForm";
 import {DateForm} from "../../components/form/dateForm/DateForm";
+import {TimeForm} from "../../components/form/timeForm/TimeForm";
+import {CheckForm} from "../../components/form/checkForm/CheckForm";
 import {TextForm} from "../../components/form/textForm/TextForm";
 import {ButtonFull} from "../../components/buttonFull/ButtonFull";
 import {MultipleForm} from "../../components/form/multipleForm/MultipleForm";
@@ -87,6 +89,8 @@ function CreateScreen({ navigation, route }) {
         if (data.type === 'number') return <NumberForm data={{...data, change: changeRoot, value: finalForm, error: errorForm[data.name]}}/>;
         if (data.type === 'dropdown') return <DropDownForm data={{...data, change: changeRoot, value: finalForm, error: errorForm[data.name], lang: dataLang.data}}/>;
         if (data.type === 'date') return <DateForm data={{...data, change: changeRoot, value: finalForm, error: errorForm[data.name]}}/>;
+        if (data.type === 'time') return <TimeForm data={{...data, change: changeRoot, value: finalForm, error: errorForm[data.name]}}/>;
+        if (data.type === 'check') return <CheckForm data={{...data, change: changeRoot, value: finalForm, error: errorForm[data.name]}}/>;
         if (data.type === 'text') return <TextForm data={{...data, change: changeRoot, value: finalForm, error: errorForm[data.name]}}/>;
         if (data.type === 'multiple') return <MultipleForm data={{...data, change: changeRoot, value: finalForm, error: errorForm[data.name]}}/>;
         if (data.type === 'books') return <BooksForm data={{...data, change: changeRoot, value: finalForm, error: errorForm[data.name], lang: dataLang.data}}/>;
@@ -108,7 +112,6 @@ function CreateScreen({ navigation, route }) {
                 <ButtonFull data={{value: (dataLang?.data ? dataLang?.data['Создать'] : 'Создать'), change: createHandler}}/>
                 <View style={styles.block_defoult} />
             </ScrollView>
-            
         </View>
         </>
     );

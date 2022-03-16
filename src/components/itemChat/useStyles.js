@@ -25,7 +25,7 @@ export const styles = StyleSheet.create({
         width: width - 205,
     },
     box_l: {
-        width: 120,
+        width: 40,
     },
     label: {
         fontSize: 16,
@@ -35,9 +35,11 @@ export const styles = StyleSheet.create({
         color: '#CCCCCC',
     },
     time: {
+        width: '100%',
+        textAlign: 'right',
         fontSize: 12,
-        color: Colors.ColorIcon,
         marginBottom: 6,
+        color: Colors.ColorIcon,
     },
     eleven: {
         fontSize: 12,
@@ -51,6 +53,7 @@ export const styles = StyleSheet.create({
         textAlign: 'center',
     },
     liner: {
+        width: '100%',
         flexDirection: 'row',
         justifyContent: 'flex-end',
         marginTop: 5,

@@ -24,6 +24,7 @@ import {SettingDataContext} from "../../context/SettingDataContext";
 import GlobalStyle from "../../components/GlobalStyle";
 import {Popap} from "../../components/popap/Popap";
 import {Colors, InputStyle} from "../../utils/Colors";
+import {versionApp} from "../../../const";
 
 
 function HomeScreen({ navigation, route }) {
@@ -39,11 +40,14 @@ function HomeScreen({ navigation, route }) {
     const [updateValue, setUpdateValue] = useState(false);
 
     const getVersion = async () => {
+        //Update version APP
         try {
+            console.log('aaaaa')
             const answer = await request(`${auth.url_str}/mobile/default/get-version`, 'GET', null, {
                 "Api-Language": auth.lenguage.value
             });
-            setUpdateValue(answer !== 1);
+            console.log('aaaaa777-', answer)
+            setUpdateValue(answer !== versionApp);
         } catch (e) {}
     }
 

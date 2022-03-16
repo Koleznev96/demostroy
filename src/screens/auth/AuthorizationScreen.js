@@ -12,6 +12,7 @@ import {styles} from "./useStyles";
 import {InputFull} from "../../components/inputFull/InputFull";
 import {ButtonFull} from "../../components/buttonFull/ButtonFull";
 import {Footer} from "../../components/footer/Footer";
+import PushNotification from 'react-native-push-notification';
 
 
 function AuthorizationScreen({ navigation }) {
@@ -23,10 +24,19 @@ function AuthorizationScreen({ navigation }) {
         login: '',
         password: '',
     });
+    const [fcm_token, setFcm_token] = useState(null);
 
     const onPressBack = () => {
         navigation.goBack();
     };
+
+    PushNotification.configure({
+        onRegister: function(token) {
+            setFcm_token(token.token)
+            console.log('444-', token.token)
+            // if (!auth.fcmToken) auth.addToken(token.token, auth.token);
+        }
+    });
 
     const AuthHandler = async () => {
         clearError();
@@ -50,6 +60,14 @@ function AuthorizationScreen({ navigation }) {
             const data = await request(`${auth.url_str}/mobile/default/login`, 'POST', {username: login.trim(), password: password.trim()}, {
                 "Api-Language": auth.lenguage.value
             });
+            // console.log('auth- ', data.token);
+            try {
+                // console.log('litl-', `${auth.url_str}/mobile/chat/set-token?token_push=${fcm_token}&token=${data.token}`)
+                const set_token = await request(`${auth.url_str}/mobile/chat/set-token?token_push=${fcm_token}&token=${data.token}`, 'GET')
+                // console.log('litl-answer', set_token)
+            } catch (e) {
+                // console.log('lolll-err', e)
+            }
             auth.login(data.token);
         } catch (e) {
             setErrorField({

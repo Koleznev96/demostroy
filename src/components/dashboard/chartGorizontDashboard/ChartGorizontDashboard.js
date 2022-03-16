@@ -32,7 +32,7 @@ export const ChartGorizontDashboard = ({data, clear_get, setRefreshing}) => {
     const getData = async (data_get, name_block) => {
         setRefreshing(true);
         data_get = data_get ? `&${data_get}` : '';
-        console.log('8888-', `${auth.url_str}/mobile/dashboard?token=${auth.token}${data_get}`)
+        // console.log('8888-', `${auth.url_str}/mobile/dashboard?token=${auth.token}${data_get}`)
         try {
             const answer = await request(`${auth.url_str}/mobile/dashboard?token=${auth.token}${data_get}`, 'GET', null, {
                 "Api-Language": auth.lenguage.value

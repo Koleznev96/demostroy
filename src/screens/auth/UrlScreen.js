@@ -2,10 +2,6 @@ import React, {useContext, useState} from 'react';
 import {
     View,
     Text,
-    TextInput,
-    Pressable,
-    Keyboard,
-    ScrollView
 } from 'react-native';
 import {AuthContext} from "../../context/authContext";
 import {useHttp} from "../../hooks/http.hook";

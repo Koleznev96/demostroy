@@ -99,7 +99,7 @@ export const Menu = ({ navigation, status, noActive }) => {
         set_is_open(false);
         settingDataRoot.clearData();
         console.log('ggpp-', item)
-        if(item.url[0] === "/user-chat") {
+        if(item.url[0] === "/chat") {
             menuRoot.menuHandler(item);
             navigation.navigate('Chat');
         } else if(item.url[0] === "/dashboard") {
@@ -146,7 +146,7 @@ export const Menu = ({ navigation, status, noActive }) => {
             ))}
             </View>
             <View style={styles.lin_item}>
-            {two_data.slice(0, is_open ? two_data.length : 1).map((item, index) => (
+            {two_data?.slice(0, is_open ? two_data.length : 1).map((item, index) => (
                 <TouchableOpacity
                 style={is_open ? styles.item_menu_active : styles.item_menu}
                 onPress={() => itemMenuHandler(item)}

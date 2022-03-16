@@ -11,7 +11,7 @@ import { GlobalSvgSelector } from '../../assets/GlobalSvgSelector';
 
 
 export const HeaderDealog = ({ data, exitHandler }) => {
-    console.log('dddd-', data)
+    // console.log('dddd-', data)
     return (
         <>
         <View style={styles.root}>
@@ -44,7 +44,11 @@ export const HeaderDealog = ({ data, exitHandler }) => {
                 </Text>
             </View>
 
-            <Image style={styles.avatar} source={{uri: data?.avatar_url}} />
+            {data?.avatar_url?.length ? (
+                <Image style={styles.avatar} source={{uri: data?.avatar_url?.length ? data?.avatar_url : null}} />
+            ): (
+                <Image style={styles.avatar} source={require('../../assets/images/def.png')} />
+            )}
         </View>
         <View style={styles.hr} />
         </>

@@ -80,7 +80,7 @@ function ViewScreen({ navigation, route }) {
             // console.log('answer-', answer)
             setEvent(answer);
         } catch (e) {
-            console.log('err-', e)
+            // console.log('err-', e)
         }
     }
 

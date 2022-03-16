@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1075924764880",
+    "project_id": "teo-app-e5dfd",
+    "storage_bucket": "teo-app-e5dfd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1075924764880:android:f6ec17a92bbd1c8a32f6d5",
+        "android_client_info": {
+          "package_name": "com.demostroy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1075924764880-vv7mm7qvl41hjo811qfvpencc8lg0e02.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC8EhWwcxWlIvEnvXhbfxSrhJzE-0oOhV8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1075924764880-vv7mm7qvl41hjo811qfvpencc8lg0e02.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

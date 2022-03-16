@@ -23,7 +23,7 @@ import { Loader } from '../../components/loader/Loader';
 
 
 function DialogScreen({ navigation, route }) {
-    const {data} = route.params;
+    const {data, index} = route.params;
     const auth = useContext(AuthContext);
     const dataRoot = useContext(DataContext);
     const dataLang = useContext(DataLangContext);
@@ -33,16 +33,21 @@ function DialogScreen({ navigation, route }) {
     let scrollView = useRef(null);
 
     useEffect(() => {
-        chatRoot.openChat(data);
-    }, []);
+        if (data) {
+            chatRoot.openChat(data);
+        }
+    }, [data]);
 
     const exitHandler = () => {
+        let new_data = [...chatRoot.data];
+        new_data[index].count_new_messages = 0;
+        chatRoot.setData(new_data);
         navigation.goBack();
         chatRoot.exitChat();
     }
 
     const renderItem = (item) => {
-        return <Meassage key={item.item.id} data={item.item} />;
+        return <Meassage key={item.item.id} data={item.item} myId={chatRoot.myId}/>;
     }
 
     const sendMeassage = () => {
@@ -50,12 +55,8 @@ function DialogScreen({ navigation, route }) {
         try {
             chatRoot.sendMeassage(textMeassage);
             setTextMeassage("");
-            // const data = await request(`${auth.url_str}/mobile/chat/history?user_id=${id ? id : data_chat}&token=${auth.token}&p=0`, 'GET', null, {
-            //     "Api-Language": auth.lenguage.value
-            // });
-            // setMeassages(data?.data);
         } catch (e) {}
-    }    
+    }        
 
     return (
         <>
@@ -99,7 +100,7 @@ function DialogScreen({ navigation, route }) {
                 </TouchableOpacity>
                 <TextInput
                 value={textMeassage}
-                placeholder='Поиск'
+                placeholder='Сообщений...'
                 placeholderTextColor={Colors.Placeholder}
                 onChangeText={(value) => setTextMeassage(value)}
                 style={styles.text_input}

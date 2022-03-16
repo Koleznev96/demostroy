@@ -20,6 +20,8 @@ import {ButtonFull} from "../../components/buttonFull/ButtonFull";
 import {BooksForm} from "../../components/form/booksForm/BooksForm";
 import {Popap} from "../../components/popap/Popap";
 import {FileForm} from "../../components/form/fileForm/FileForm";
+import {TimeForm} from "../../components/form/timeForm/TimeForm";
+import {CheckForm} from "../../components/form/checkForm/CheckForm";
 
 
 function EditScreen({ navigation, route }) {
@@ -112,6 +114,8 @@ function EditScreen({ navigation, route }) {
         if (data.type === 'multiple') return <MultipleForm data={{...data, change: changeRoot, value: finalForm, error: errorForm[data.name]}}/>;
         if (data.type === 'books') return <BooksForm data={{...data, change: changeRoot, value: finalForm, error: errorForm[data.name], lang: dataLang.data}}/>;
         if (data.type === 'file') return <FileForm data={{...data, change: changeRoot, value: finalForm, error: errorForm[data.name], url, lang: dataLang.data}}/>;
+        if (data.type === 'time') return <TimeForm data={{...data, change: changeRoot, value: finalForm, error: errorForm[data.name]}}/>;
+        if (data.type === 'check') return <CheckForm data={{...data, change: changeRoot, value: finalForm, error: errorForm[data.name]}}/>;
         return null;
     }
 

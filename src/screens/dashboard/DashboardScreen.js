@@ -44,13 +44,13 @@ function DashboardScreen({ navigation, route }) {
     const getData = async (data_get, name_block) => {
         setRefreshing(true);
         data_get = data_get ? `&${data_get}` : '';
-        console.log(`----${auth.url_str}/mobile/dashboard?token=${auth.token}${data_get}`);
+        // console.log(`----${auth.url_str}/mobile/dashboard?token=${auth.token}${data_get}`);
         try {
             const answer = await request(`${auth.url_str}/mobile/dashboard?token=${auth.token}${data_get}`, 'GET', null, {
                 "Api-Language": auth.lenguage.value
             });
             // const new_data = answer.find(item => item.type === name_block);
-            console.log('gggg-', answer);
+            // console.log('gggg-', answer);
             setData(answer);
         } catch(e) {}
         setRefreshing(false);

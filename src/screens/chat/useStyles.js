@@ -10,9 +10,10 @@ export const styles = StyleSheet.create({
     coll: {
         zIndex: Platform.OS === 'ios' ? 2500 : 0,
         paddingHorizontal: 20,
-        marginBottom: 5,
+        // marginBottom: 5,
     },
     header_search: {
+        marginTop: Platform.OS === 'ios' ? 35 : 16,
         flexDirection: 'row',
         justifyContent: 'space-between',
     },

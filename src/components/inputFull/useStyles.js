@@ -8,7 +8,7 @@ export const styles = StyleSheet.create({
         backgroundColor: Colors.ColorInput,
         borderRadius: 20,
         paddingHorizontal: 20,
-        aliginItems: 'center',
+        alignItems: 'center',
         color: '#fff',
         marginTop: 10,
     },

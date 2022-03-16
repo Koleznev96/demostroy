@@ -9,21 +9,26 @@ import GlobalStyle from "../GlobalStyle";
 
 
 const timeString = (date) => {
-    // date = new Date(date);
-    // let hours = date.getHours().toString();
-    // let minutes = date.getMinutes().toString();
+    if (typeof date === "string") return date?.slice(11, 16);
 
-    // if (hours.length <= 1) hours = '0' + hours;
-    // if (hours.minutes <= 1) hours = '0' + hours;
+    date = new Date(date);
+    let hours = date.getHours().toString();
+    let minutes = date.getMinutes().toString();
+
+    if (hours.length <= 1) {
+        hours = '0' + hours;
+    }
+    if (minutes.length <= 1) {
+        minutes = '0' + minutes;
+    }
     
-    // return `${hours}:${minutes}`;
-    // console.log('yy-', date)
-    return date?.slice(10, 16);
+    return `${hours}:${minutes}`;
 }
 
 
-export const Meassage = ({ data }) => {
-    if (data.my)
+export const Meassage = ({ data, myId }) => {
+    // console.log('nnn-', data, myId.result)
+    if (data.sender_id === myId.result)
     return (
         <View style={styles.liner_my}>
             <View style={styles.root_my} 
