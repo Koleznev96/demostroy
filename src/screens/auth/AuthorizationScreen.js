@@ -32,8 +32,9 @@ function AuthorizationScreen({ navigation }) {
 
     PushNotification.configure({
         onRegister: function(token) {
+            console.log('hhhh')
             setFcm_token(token.token)
-            console.log('444-', token.token)
+            console.log('5555555555555555-', token)
             // if (!auth.fcmToken) auth.addToken(token.token, auth.token);
         }
     });
