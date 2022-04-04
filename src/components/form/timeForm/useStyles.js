@@ -6,24 +6,29 @@ export const styles = StyleSheet.create({
     root: {
         marginBottom: 20,
     },
-    input: {
+    button: {
         width: '100%',
-        // paddingHorizontal: 2,
+    },
+    input: {
+        marginLeft: 3,
+        width: '100%',
         color: '#fff',
         fontSize: 14,
-        marginTop: 6,
-        // borderBottomWidth: 1,
-        // borderColor: 'rgba(203, 217, 255, 0.2)',
-        paddingBottom: -8,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        // alignItems: 'center',
+        paddingTop: 8,
+        paddingBottom: 5,
+    },
+    input_def: {
+        marginLeft: 3,
+        width: '100%',
+        color: '#B9B9B9',
+        fontSize: 14,
+        paddingTop: 8,
+        paddingBottom: 5,
     },
     hr_g: {
         width: '100%',
         height: 1,
         backgroundColor: 'rgba(203, 217, 255, 0.2)',
-        marginTop: -18,
     },
     icon: {
         marginTop: 8,

@@ -59,6 +59,7 @@ export const DataProvider = ({children, ...props}) => {
                         label: form[i].label,
                         name: form[i].name,
                         status: true,
+                        type: form[i].type,
                     }]);
                 }
                 // const data = form.map(async (item, index) => {

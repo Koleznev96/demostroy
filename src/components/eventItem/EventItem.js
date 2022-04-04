@@ -4,7 +4,7 @@ import {
     View,
     Image,
     TouchableOpacity,
-    Keyboard,
+    Switch,
     Dimensions,
     Pressable
 } from 'react-native';
@@ -42,6 +42,21 @@ export const EventItem = ({ item }, viewHandler, redationHandler, deleteHandler,
 
     const GetIconsMenu = (nameIcom) => {
         return <Icon name={nameIcom?.slice(6, nameIcom.length)} size={22} color='#fff' />;
+    }
+
+    const swithFields = (filed, data, view) => {
+        // if (view === "left") {
+        switch (filed.type) {
+            case 'multiple': 
+                return 
+                
+        }
+        // } else {
+        //     switch (filed.type) {
+        //         case 'multiple': 
+        //             return 
+        //     }
+        // }
     }
 
     return (
@@ -139,14 +154,31 @@ export const EventItem = ({ item }, viewHandler, redationHandler, deleteHandler,
                 </View>
                     {item.id === indexActive ? (
                         <View style={styles.dop_info}>
-                            {dataRoot.settingActiveTabl ? dataRoot.settingActiveTabl.slice(2, dataRoot.settingActiveTabl.length).map((liton, index) => (
+                            {dataRoot.settingActiveTabl ? dataRoot.settingActiveTabl.slice(2, dataRoot.settingActiveTabl.length).map((liton, index) => {
+                            if (liton[0].type === "multiple" && (!liton[1] || liton[1].type === "multiple")) return null;
+                            return (
+                                // if (!liton[1] && liton[1])(
                                 <View style={styles.info_item}>
                                     <View style={styles.liner}>
+                                    {/* {console.log(liton[0], dataRoot.form?.find(item => item.name = liton[0]?.name).type, item[liton[0]?.name])} */}
+                                    {liton[0].type !== "multiple" ? (
                                     <View style={styles.wrapper_item}>
                                         <Text style={[GlobalStyle.CustomFontRegular, styles.label]}>{liton[0].status ? liton[0]?.label : null}</Text>
-                                        <Text style={[GlobalStyle.CustomFontRegular, styles.value]}>{liton[0].status ? item[liton[0]?.name] : null}</Text>
+                                        {
+                                            liton[0].type === 'check' ? (
+                                                <Switch
+                                                    trackColor={{ false: "#767577", true: Colors.ColorIcon }}
+                                                    thumbColor={item[liton[0]?.name] === 1 ? Colors.Orange : "#f4f3f4"}
+                                                    ios_backgroundColor="#3e3e3e"
+                                                    // onValueChange={() => data.change({name: data.name, value: data.value[data.name] === 1 ? 0 : 1}, data.index)}
+                                                    value={item[liton[0]?.name] === 1}
+                                                />
+                                            ) :
+                                            <Text style={[GlobalStyle.CustomFontRegular, styles.value]}>{liton[0].status ? item[liton[0]?.name] : null}</Text>
+                                        }
                                     </View>
-                                    {liton[1] ? (
+                                    ): null}
+                                    {liton[1] && liton[1].type !== "multiple" ? (
                                         <View style={styles.wrapper_item_rigth}>
                                             <Text style={[GlobalStyle.CustomFontRegular, styles.label_rigth]}>{liton[1].status ? liton[1]?.label : null}</Text>
                                             <Text style={[GlobalStyle.CustomFontRegular, styles.value_rigth]}>{liton[1].status ? item[liton[1]?.name] : null}</Text>
@@ -155,7 +187,7 @@ export const EventItem = ({ item }, viewHandler, redationHandler, deleteHandler,
                                     </View>
                                     <View style={styles.hr} />
                                 </View>
-                            )) : (dataRoot?.form?.slice(4, dataRoot.settingActiveTabl.length).map((liton, index) => (
+                            )}) : (dataRoot?.form?.slice(4, dataRoot.settingActiveTabl.length).map((liton, index) => (
                                 <View></View>
                             )))}
                         </View>

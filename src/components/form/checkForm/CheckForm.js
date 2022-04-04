@@ -13,24 +13,18 @@ import {Colors} from "../../../utils/Colors";
 
 
 export const CheckForm = ({ data }) => {
-    const [isEnabled, setIsEnabled] = useState(false);
-    const toggleSwitch = () => setIsEnabled(previousState => !previousState);
-
     return (
         <View style={styles.root}>
+        <View style={styles.wrapper}>
         <Text style={[GlobalStyle.CustomFontRegular, styles.label]}>{data.label}</Text>
-        {data?.data?.map((item, index) => (
-            <View style={styles.item}>
-                <Text style={[GlobalStyle.CustomFontRegular, styles.item_text]}>{item.label}</Text>
-                <Switch
-                    trackColor={{ false: "#767577", true: Colors.ColorIcon }}
-                    thumbColor={isEnabled ? Colors.Orange : "#f4f3f4"}
-                    ios_backgroundColor="#3e3e3e"
-                    onValueChange={toggleSwitch}
-                    value={isEnabled}
-                />
-            </View>
-        ))}
+        <Switch
+            trackColor={{ false: "#767577", true: Colors.ColorIcon }}
+            thumbColor={data.value[data.name] === 1 ? Colors.Orange : "#f4f3f4"}
+            ios_backgroundColor="#3e3e3e"
+            onValueChange={() => data.change({name: data.name, value: data.value[data.name] === 1 ? 0 : 1}, data.index)}
+            value={data.value[data.name] === 1}
+        />
+        </View>
         {data.error?.length ? <Text style={[GlobalStyle.CustomFontRegular, styles.error_text]}>
                 {data.error}
         </Text> : null}

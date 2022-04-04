@@ -152,8 +152,8 @@ function ChatScreen({ navigation, route }) {
                     </>
                 )}
                 keyExtractor={item => item.id}
-                // onEndReached={() => chatRoot.paginashionRoot()}
-                // onEndReachedThreshold={0.3}
+                onEndReached={() => chatRoot.paginashionRoot()}
+                onEndReachedThreshold={0.3}
             />
             <Menu navigation={navigation} noActive={true}/>
         </View>

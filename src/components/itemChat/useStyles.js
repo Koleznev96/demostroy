@@ -43,7 +43,8 @@ export const styles = StyleSheet.create({
     },
     eleven: {
         fontSize: 12,
-        width: 18,
+        minWidth: 18,
+        paddingHorizontal: 4,
         height: 18,
         backgroundColor: Colors.Orange,
         flexDirection: 'row',
@@ -51,6 +52,7 @@ export const styles = StyleSheet.create({
         justifyContent: 'center',
         borderRadius: 100,
         textAlign: 'center',
+        paddingTop: 0.5,
     },
     liner: {
         width: '100%',

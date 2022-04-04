@@ -19,10 +19,13 @@ import {DataLangProvider} from "./provider/DataLangProvider";
 import {SettingDataProvider} from "./provider/SettingDataProvider";
 import {PopapProvider} from "./provider/PopapProvider";
 import { ChatProvider } from "./provider/ChatProvider";
+// import YaMap from 'react-native-yamap';
 
 
 const App = () => {
   const {token, url_str, login, logUrl, logout, fullLogout, lenguage, updateLenguage, ready} = useAuth();
+
+  // YaMap.init('bf54697f-7a05-4c12-8e35-9f4de680982f');
 
   const isAuth = !!token;
   const isUrl = !!url_str;

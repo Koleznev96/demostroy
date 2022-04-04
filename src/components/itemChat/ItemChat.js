@@ -55,7 +55,7 @@ export const ItemChat = ({data, itemHandler}) => {
             </View>
             <View style={styles.box_l}>
                 <Text style={[GlobalStyle.CustomFontBold, styles.time]}>
-                    {timeString(data.item?.data_fin_message)}
+                    {data.item?.data_fin_message ? timeString(data.item?.data_fin_message) : '10:10'}
                 </Text>
                 {data.item?.count_new_messages ? (data.item?.count_new_messages!== 0 ? 
                 <View style={styles.liner}>

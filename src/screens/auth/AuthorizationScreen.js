@@ -32,9 +32,8 @@ function AuthorizationScreen({ navigation }) {
 
     PushNotification.configure({
         onRegister: function(token) {
-            console.log('hhhh')
             setFcm_token(token.token)
-            console.log('5555555555555555-', token)
+            // console.log('5555555555555555-', token)
             // if (!auth.fcmToken) auth.addToken(token.token, auth.token);
         }
     });
@@ -58,16 +57,25 @@ function AuthorizationScreen({ navigation }) {
             password: '',
         });
         try {
+            // console.log('data: ', {username: login.trim(), password: password.trim()})
             const data = await request(`${auth.url_str}/mobile/default/login`, 'POST', {username: login.trim(), password: password.trim()}, {
                 "Api-Language": auth.lenguage.value
             });
-            // console.log('auth- ', data.token);
+            // console.log('auth- ', data);
+            if (!data.token) {
+                return setErrorField({
+                    login: 'Неверный логин или пароль',
+                    password: 'Неверный логин или пароль',
+                });
+            }
             try {
+                
                 // console.log('litl-', `${auth.url_str}/mobile/chat/set-token?token_push=${fcm_token}&token=${data.token}`)
                 const set_token = await request(`${auth.url_str}/mobile/chat/set-token?token_push=${fcm_token}&token=${data.token}`, 'GET')
                 // console.log('litl-answer', set_token)
             } catch (e) {
                 // console.log('lolll-err', e)
+                
             }
             auth.login(data.token);
         } catch (e) {

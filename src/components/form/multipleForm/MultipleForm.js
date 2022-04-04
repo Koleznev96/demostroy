@@ -15,6 +15,9 @@ import {DropDownForm} from "../dropDownForm/DropDownForm";
 import {DateForm} from "../dateForm/DateForm";
 import {TextForm} from "../textForm/TextForm";
 import {BooksForm} from "../booksForm/BooksForm";
+import {TimeForm} from "../timeForm/TimeForm";
+import {CheckForm} from "../checkForm/CheckForm";
+import {FileForm} from "../fileForm/FileForm";
 
 
 export const MultipleForm = ({ data }) => {
@@ -22,7 +25,7 @@ export const MultipleForm = ({ data }) => {
     const [status, setStatus] = useState(false);
 
     const changeRoot = (data_p, index) => {
-        let new_data = Object.entries(data.value[data.name] ? data.value[data.name][index] : null);
+        let new_data = Object.entries(data.value[data.name] ? data.value[data.name][index] : {});
         let answer = {};
         let flag = true;
         new_data.forEach((item) => {
@@ -37,16 +40,21 @@ export const MultipleForm = ({ data }) => {
         }
         let new_fin = data.value[data.name]
         new_fin.splice(index, 1, answer);
+        // console.log('nerrrr-', new_fin);
         data.change({name: data.name, value: new_fin});
     };
 
-    const renderGetInput = ({data}, index) => {
-        if (data.type === 'input') return <InputForm data={{...data, change: changeRoot, value: data.value ? (data.value[data.name] ? data.value[data.name][index] : '') : '', index}}/>;
-        if (data.type === 'number') return <NumberForm data={{...data, change: changeRoot, value: data.value ? (data.value[data.name] ? data.value[data.name][index] : '') : '', index}}/>;
-        if (data.type === 'dropdown') return <DropDownForm data={{...data, change: changeRoot, value: data.value ? (data.value[data.name] ? data.value[data.name][index] : '') : '', index}}/>;
-        if (data.type === 'date') return <DateForm data={{...data, change: changeRoot, value: data.value ? (data.value[data.name] ? data.value[data.name][index] : '') : '', index}}/>;
-        if (data.type === 'text') return <TextForm data={{...data, change: changeRoot, value: data.value ? (data.value[data.name] ? data.value[data.name][index] : '') : '', index}}/>;
-        if (data.type === 'books') return <BooksForm data={{...data, change: changeRoot, value: data.value ? (data.value[data.name] ? data.value[data.name][index] : '') : '', index}}/>;
+    const renderGetInput = ({data_}, index) => {
+        // console.log('nnnn-', data_)
+        if (data_.type === 'input') return <InputForm data={{...data_, change: changeRoot, value: data.value ? (data.value[data.name] ? data.value[data.name][index] : '') : '', index}}/>;
+        if (data_.type === 'number') return <NumberForm data={{...data_, change: changeRoot, value: data.value ? (data.value[data.name] ? data.value[data.name][index] : '') : '', index}}/>;
+        if (data_.type === 'dropdown') return <DropDownForm data={{...data_, change: changeRoot, value: data.value ? (data.value[data.name] ? data.value[data.name][index] : '') : '', index}}/>;
+        if (data_.type === 'date') return <DateForm data={{...data_, change: changeRoot, value: data.value ? (data.value[data.name] ? data.value[data.name][index] : '') : '', index}}/>;
+        if (data_.type === 'text') return <TextForm data={{...data_, change: changeRoot, value: data.value ? (data.value[data.name] ? data.value[data.name][index] : '') : '', index}}/>;
+        if (data_.type === 'books') return <BooksForm data={{...data_, change: changeRoot, value: data.value ? (data.value[data.name] ? data.value[data.name][index] : '') : '', index}}/>;
+        if (data_.type === 'time') return <TimeForm data={{...data_, change: changeRoot, value: data.value ? (data.value[data.name] ? data.value[data.name][index] : '') : '', index}}/>;
+        if (data_.type === 'check') return <CheckForm data={{...data_, change: changeRoot, value: data.value ? (data.value[data.name] ? data.value[data.name][index] : '') : '', index}}/>;
+        if (data_.type === 'file') return <FileForm data={{...data_, change: changeRoot, value: data.value ? (data.value[data.name] ? data.value[data.name][index] : '') : '', index}}/>;
         return null;
     }
 
@@ -65,7 +73,7 @@ export const MultipleForm = ({ data }) => {
         {data?.value ? (data?.value[data.name]?.map((item_lin, index) => (
             <View style={styles.cont_root}>
                 {data?.data?.map((item) => {
-                    return renderGetInput({data: item}, index);
+                    return renderGetInput({data_: item}, index);
                 })}
             </View>
         ))) : null}

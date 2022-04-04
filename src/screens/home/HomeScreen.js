@@ -333,36 +333,7 @@ function HomeScreen({ navigation, route }) {
                 />
                 <Menu navigation={navigation} status={true}/>
                 </>
-            ) : (
-                <>
-                <View style={styles.coll}>
-                    <HeaderIndex menuHeaderHandler={menuHeaderHandler} callback_person={callback_person} updateValue={updateValue} openUpdatePopap={openUpdatePopap} />
-                    <View style={styles.header_search}>
-                        <Search data={null} searchHandler={searchHandler} filterHandler={filterHandler}/>
-                    </View>
-                </View>
-                <View style={{zIndex: -1, flex: 1,
-                flexDirection: 'column',}}>
-                <FlatList 
-                    refreshControl={
-                        <RefreshControl
-                            refreshing={dataRoot.refresh}
-                            onRefresh={() => dataRoot.paginashion(true)}
-                            colors={[Colors.Orange]}
-                        />
-                    }
-                    contentContainerStyle={styles.scrollView}
-                    data={dataRoot.data}
-                    renderItem={(item, index) => EventItem(item, viewHandler, redationHandler, deleteHandler, dataRoot, stipoglot, itemHandler)}
-                    keyExtractor={item => item.id}
-                    onEndReached={() => dataRoot.paginashion(false)}
-                    onEndReachedThreshold={0.3}
-                    style={{zIndex: -1000}}
-                />
-                <Menu navigation={navigation}/>
-                </View>
-                </>
-            )}
+            
         </View>
         </>
     );

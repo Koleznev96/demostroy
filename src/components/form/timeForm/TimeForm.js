@@ -1,117 +1,82 @@
-import React, {useState, useContext} from 'react';
+import React, {useState} from 'react';
 import {
     Text,
     View,
-    Pressable,
+    Platform,
     TouchableOpacity
 } from 'react-native';
 import {styles} from "./useStyles";
 import GlobalStyle from "../../GlobalStyle";
-import { GlobalSvgSelector } from '../../../assets/GlobalSvgSelector';
-import { PopapContext } from "../../../context/PopapContext";
-import DatePicker from 'react-native-datepicker';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
+
+const timeString = (date) => {
+    date = new Date(date);
+    let hours = date.getHours().toString();
+    let minutes = date.getMinutes().toString();
+    if (hours.length <= 1) {
+        hours = '0' + hours;
+    }
+    if (minutes.length <= 1) {
+        minutes = '0' + minutes;
+    }
+    
+    return `${hours}:${minutes}`;
+}
 
 export const TimeForm = ({ data }) => {
-    const popapRoot = useContext(PopapContext);
-    const [value, setValue] = useState(null);
-
-    const itemHandler = (item) => {
-        setValue(item);
-        popapRoot.exitHandler();
-        data.change({name: data.name, value: item.toString()}, data.index)
-    }
-
-    const DataPopap = (
-        <View style={{paddingVertical: 20, alignItems: 'center', justifyContent: 'center', width: '100%'}}>
-            <DatePicker
-                style={{width: '100%'}}
-                date={value ? value : new Date()}
-                mode="time"
-                placeholder="select date"
-                format="hh:mm:ss"
-                // minDate="2018-05-01"
-                // maxDate="2026-06-01"
-                confirmBtnText="Confirm"
-                cancelBtnText="Cancel"
-                iconSource={null}
-                customStyles={{
-                disabled: {
-                    marginLeft: 20,
-                },
-                dateInput: {
-                    borderWidth: 0,
-                    marginLeft: 40,
-                    width: '100%',
-                },
-                dateText: {
-                    color: '#fff',
-                    fontSize: 22,
-                    textDecorationLine: 'underline',
-                    textAlign: 'center',
-                    width: '100%'
-                }
-                // ... You can check the source to find the other keys.
-                }}
-                onDateChange={(date) => {itemHandler(date)}}
-            />
-        </View>
-    );
-
-    const openPopap = () => {
-        popapRoot.dataChange(DataPopap);
-        popapRoot.openHandler();
+    const [status, setStatus] = useState(false);
+    const itemHandler = (event, selectedDate) => {
+        const currentDate = selectedDate || date;
+        setStatus(Platform.OS === 'ios' ? true : false);
+        data.change({name: data.name, value: timeString(currentDate)}, data.index)
     }
 
     return (
+        <>
+        {status && <DateTimePicker
+        style={{width: 100}}
+        display="default"
+        is24Hour={true}
+        value={data.value[data.name] ? new Date(2022, 0, 1, Number(data.value[data.name].slice(0, 2)), Number(data.value[data.name].slice(3, 5)), 0, 0) : new Date()}
+        mode="time"
+        format="hh:mm"
+        confirmBtnText="Confirm"
+        cancelBtnText="Cancel"
+        iconSource={null}
+        customStyles={{
+        disabled: {
+            marginLeft: 20,
+        },
+        dateInput: {
+            borderWidth: 0,
+            marginTop: -20,
+            width: '100%',
+            padding: 0,
+            textAlign: 'left',
+        },
+        dateText: {
+            textAlign: 'left',
+            color: '#fff',
+            fontSize: 14,
+        }
+        }}
+        onChange={itemHandler}
+    />}
         <View style={styles.root}>
         <Text style={[GlobalStyle.CustomFontRegular, styles.label]}>{data.label}</Text>
-        <Pressable 
-        style={[styles.input, data?.styles ? data.styles : null ]} 
-        // onPress={() => openPopap()}
+        <TouchableOpacity 
+        style={[styles.button, data?.styles ? data.styles : null ]} 
+        onPress={() => setStatus(true)}
         >
-            {/* <Text style={[GlobalStyle.CustomFontRegular, styles.value, !value ? styles.value_no : null]}>{value ? value : '00-00-0000'}</Text> */}
-            <DatePicker
-                style={{width: '100%'}}
-                date={value}
-                mode="time"
-                placeholder="00-00-00"
-                format="hh:mm:ss"
-                // minDate="2018-05-01"
-                // maxDate="2026-06-01"
-                confirmBtnText="Confirm"
-                cancelBtnText="Cancel"
-                iconSource={null}
-                customStyles={{
-                disabled: {
-                    marginLeft: 20,
-                },
-                dateInput: {
-                    borderWidth: 0,
-                    marginLeft: -205,
-                    marginTop: -20,
-                    width: '100%',
-                    padding: 0,
-                    textAlign: 'left',
-                },
-                dateText: {
-                    textAlign: 'left',
-                    color: '#fff',
-                    fontSize: 14,
-                }
-                // ... You can check the source to find the other keys.
-                }}
-                onDateChange={(date) => {itemHandler(date)}}
-            />
-            <View style={styles.icon}>
-            {/* <GlobalSvgSelector  id='arrow_items' /> */}
-            </View>
-        </Pressable>
+            <Text style={[GlobalStyle.CustomFontRegular, data.value[data.name] ? styles.input : styles.input_def]}>{data.value[data.name] ? data.value[data.name] : '00:00'}</Text>
+        </TouchableOpacity>
         <View style={styles.hr_g} />
         {data.error?.length ? <Text style={[GlobalStyle.CustomFontRegular, styles.error_text]}>
             {data.error}
         </Text> : null}
         </View>
+        </>
     );
 }
 

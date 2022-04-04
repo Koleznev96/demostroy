@@ -138,8 +138,8 @@ android {
         applicationId "com.demostroy"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 11
-        versionName "1.5"
+        versionCode 12
+        versionName "1.6"
     }
     splits {
         abi {
@@ -199,7 +199,7 @@ dependencies {
 
     implementation project(path: ":react-native-interactable") 
 
-    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
 
 
     //fcm
@@ -207,6 +207,9 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics'
 
     implementation project(':react-native-push-notification')
+
+    implementation 'com.yandex.android:maps.mobile:4.0.0-lite'
+    // implementation 'com.yandex.android:maps.mobile:4.0.0-lite'
 
 
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {

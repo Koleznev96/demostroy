@@ -32,6 +32,8 @@ import FilterScreen from './screens/filter/FilterScreen';
 import SettingTablScreen from './screens/settingTabl/SettingTablScreen';
 import ProfileScreen from './screens/profile/ProfileScreen';
 
+import MapScreen from './screens/map/MapScreen';
+
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -150,7 +152,8 @@ export const Routes = (isAuth, isUrl) => {
 
   return ( 
     <NavigationContainer>
-      <Stack.Navigator initialRouteName='SplashOne'>
+      <Stack.Navigator initialRouteName='Map'>
+        <Stack.Screen name='Map' component={MapScreen} options={{ headerShown: false }}/>
         <Stack.Screen name='SplashOne' component={SplashOneScreen} options={{ headerShown: false }}/>
         <Stack.Screen name='Root' component={() => StackRootRoutes(isAuth, isUrl)} options={{ headerShown: false }}/>
       </Stack.Navigator>

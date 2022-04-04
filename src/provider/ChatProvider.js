@@ -56,6 +56,7 @@ export const ChatProvider = ({children, ...props}) => {
                 "Authorization": auth.token
             });
             setData(data.data);
+            // setData([{id: 5, name: 'dfgdfg', avatar_url: '', count_new_messages: 4,}])
             if (data.data?.length < 20) setStopPaginationRoot(true);
         } catch(e) {
         }
