@@ -21,15 +21,6 @@
       android:roundIcon="@mipmap/ic_launcher_round"
       android:allowBackup="false"
       android:theme="@style/AppTheme">
-      
-        <meta-data
-        android:name="com.google.android.geo.API_KEY"
-        android:value="bf54697f-7a05-4c12-8e35-9f4de680982f"/>
-
-        <!-- You will also only need to add this uses-library tag -->
-        <uses-library android:name="org.apache.http.legacy" android:required="false"/>
-
-
         <meta-data android:name="com.google.firebase.messaging.default_notification_icon" android:resource="@drawable/ic_notification" />
         <!-- <meta-data  android:name="com.google.firebase.messaging.default_notification_icon" android:resource="@mipmap/ic_notification" /> -->
 
@@ -71,5 +62,13 @@
       </activity>
       <!--  -->
       <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
+
+
+      <meta-data
+        android:name="com.google.android.geo.API_KEY"
+        android:value="AIzaSyBmekFcGP_xr60OQZ4eKurZZSoVU_vdfbU"/>
+
+      <!-- You will also only need to add this uses-library tag -->
+      <uses-library android:name="org.apache.http.legacy" android:required="false"/>
     </application>
 </manifest>

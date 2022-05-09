@@ -208,7 +208,7 @@ dependencies {
 
     implementation project(':react-native-push-notification')
 
-    implementation 'com.yandex.android:maps.mobile:4.0.0-lite'
+//    implementation 'com.yandex.android:maps.mobile:4.0.0-lite'
     // implementation 'com.yandex.android:maps.mobile:4.0.0-lite'
 
 

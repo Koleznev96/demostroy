@@ -1,9 +1,11 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {
     View,
-    Button,
+    ScrollView,
     Dimensions,
-    TouchableOpacity
+    TouchableOpacity,
+    Text,
+    Keyboard
 } from 'react-native';
 import { AuthContext } from "../../context/authContext";
 import { useHttp } from "../../hooks/http.hook";
@@ -17,7 +19,15 @@ import { GlobalSvgSelector } from '../../assets/GlobalSvgSelector';
 import SlidingPanel from 'react-native-sliding-up-down-panels';
 import SlidingUpPanel from 'rn-sliding-up-panel';
 // import { YandexMapKit, YandexMapView } from 'react-native-yandexmapkit';
-import YaMap from 'react-native-yamap';
+import MapView from 'react-native-maps';
+import { Marker, MarkerMap } from '../../components/map/marker/MarkerMap';
+import GlobalStyle from '../../components/GlobalStyle';
+import { DropDownForm } from '../../components/map/dropDownForm/DropDownForm';
+import { ButtonFull } from '../../components/buttonFull/ButtonFull';
+import { CardMachine } from '../../components/map/cardMachine/CardMachine';
+import {BooksForm} from '../../components/form/booksForm/BooksForm';
+import { DataLangContext } from '../../context/DataLangContext';
+// import YaMap from 'react-native-yamap';
 const {width, height} = Dimensions.get('screen');
 
 
@@ -28,7 +38,7 @@ const route = {
 
 // YandexMapKit.setApiKey('bf54697f-7a05-4c12-8e35-9f4de680982f');
 
-YaMap.init('bf54697f-7a05-4c12-8e35-9f4de680982f');
+// YaMap.init('bf54697f-7a05-4c12-8e35-9f4de680982f');
 
 
 function MapScreen({ navigation }) {
@@ -38,13 +48,48 @@ function MapScreen({ navigation }) {
     const [Refreshing, setRefreshing] = useState(false);
     const [panel, setPanel] = useState(null);
     const [number, setNumber] = useState(null);
+    const [strSearch, setStrSearch] = useState("");
+    const [form, setForm] = useState([]);
+    const [locations, setLocations] = useState([]);
+    const dataLang = useContext(DataLangContext);
+    const [finalForm, setFinalForm] = useState({});
+    const [isKeyboardVisible, setKeyboardVisible] = useState(false);
+    const [statusFilter, setStatusFilter] = useState(false);
+
+    useEffect(() => {
+        const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () =>  setKeyboardVisible(true));
+        const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => setKeyboardVisible(false));
+
+        return () => {
+            keyboardDidHideListener.remove();
+            keyboardDidShowListener.remove();
+        };
+    }, []);
+
+    const getData = async () => {
+        try {
+            const answer = await request(`${auth.url_str}/mobile/maps/index?token=${auth.token}`, 'GET', null, {
+                "Api-Language": auth.lenguage.value
+            });
+            setForm(answer[0].form);
+            setLocations(answer[1].locations);
+        } catch (e) {
+            console.log('uuu-', e)
+        }
+    }
+
+    console.log('hhh-', form)
+
+    useEffect(() => {
+        getData();
+    }, [])
 
     const newSearch = (text) => {
         setStrSearch(text);
     }
 
     const goBack = () => {
-
+        navigation.goBack();
     }
 
     // useEffect(() => {
@@ -55,6 +100,27 @@ function MapScreen({ navigation }) {
         let top_number = number > (height * 60 / 100) / 2 ? 135 : height * 60 / 100;
         setNumber(top_number);
         panel.show(top_number);
+    }
+
+    const onHandlerMarker = (data) => {
+        console.log("6666-", data)
+    }
+
+    const searchHandler = () => {
+
+    }
+
+    const changeRoot = () => {
+
+    }
+
+    const saveFilterHandler = () => {
+        console.log('status-', statusFilter)
+        setStatusFilter(false);
+    } 
+
+    const clearFilterHandler = () => {
+
     }
 
     return (
@@ -68,37 +134,35 @@ function MapScreen({ navigation }) {
                 >
                     <GlobalSvgSelector id="blur_back" />
                 </TouchableOpacity>
-                <View style={styles.header_search}>
-                    {/* <Search value={chatRoot.strSearch} setStrSearch={chatRoot.newSearch} searchHandler={searchHandler}/> */}
-                </View>
             </View>
-            {/* <YandexMapView 
-                ref="yandexMap" 
-                onInteraction={() => console.log()} 
-                // region={this.state.region}
-                showMyLocation={true} 
-                geocodingEnabled={true} 
-                // onGeocoding={this.onGeocoding}
-                showMyLocationButton={true}/> */}
-            <YaMap
-                userLocationIcon={{ uri: 'https://www.clipartmax.com/png/middle/180-1801760_pin-png.png' }}
-                style={{ flex: 1 }}
-            />
-            {/* <View style={styles.map} /> */}
-            {/* <MapView
-                // provider={PROVIDER_GOOGLE} // remove if not using Google Maps
-                style={styles.map}
-                region={{
-                    latitude: 37.78825,
-                    longitude: -122.4324,
-                    latitudeDelta: 0.015,
-                    longitudeDelta: 0.0121,
+            <MapView
+                style={{width: '100%', height: '100%'}}
+                initialRegion={{
+                    latitude: locations?.length > 0 ? (locations[0]?.coords.length > 0 ? Number(locations[0].coords?.split(',')[0]) : 56.194) : 56.194,
+                    longitude: locations?.length > 0 ? (locations[0]?.coords.length > 0 ? Number(locations[0].coords?.split(',')[1]) : 92.8672) : 92.8672,
+                    latitudeDelta: 0.0922,
+                    longitudeDelta: 0.0421,
                 }}
-                >
-                </MapView> */}
-            {/* <Button title='Show panel' onPress={() => panel.show()} /> */}
+            >
+                {locations?.map((item, index) => (
+                    <MarkerMap 
+                        key={index}
+                        icon={"marker-1"}
+                        title={"Title"}
+                        description={"description"}
+                        coordinate={{
+                            latitude: item?.coords.length > 0 ? Number(item.coords?.split(',')[0]) : 56.194,
+                            longitude: item?.coords.length > 0 ? Number(item.coords?.split(',')[0]) : 92.8672,
+                            latitudeDelta: 0.0922,
+                            longitudeDelta: 0.0421,
+                        }}
+                        hadnler={onHandlerMarker}
+                    />
+                ))}
+            </MapView>
             <SlidingUpPanel 
-            draggableRange={{top: height * 60 / 100, bottom: 135}}
+            // MinimumDistanceThreshold={50}
+            draggableRange={{top: 1000, bottom: 125}}
             ref={c => setPanel(c)}
             Minimumvelocityhreshold={0.2}
             onMomentumDragEnd={(number) => setNumber(number)}
@@ -110,37 +174,70 @@ function MapScreen({ navigation }) {
                     >
                     <View style={styles.block_hr} />
                     </TouchableOpacity>
+                    {/* <TouchableOpacity
+                    onPress={(e) => panel.show(height * 60 / 100)}
+                    >
+                    <ScrollView style={{width: '100%', backgroundColor: 'red'}}> */}
+                    {statusFilter ? (
+                        <>
+                            <View style={styles.header_footer}>
+                                <Search data={null} searchHandler={searchHandler} setStrSearch={setStrSearch} />
+                            </View>
+                            <Text
+                            style={[
+                                GlobalStyle.CustomFontBold,
+                                styles.panel_title
+                            ]}
+                            >
+                                Информация
+                            </Text>
+                            {form?.map((item, index) => (
+                                <BooksForm data={{...item, change: changeRoot, value: finalForm, lang: dataLang.data}}/>
+                            ))}
+                            <ButtonFull data={{value: 'Сохранить', change: saveFilterHandler}} />
+                        </>
+                    ) : (
+                        <>
+                            <View style={styles.header_footer}>
+                                <TouchableOpacity 
+                                onPress={() => setStatusFilter(true)}
+                                style={true ? styles.buton_input : styles.buton_input_max}
+                                >
+                                    <Text
+                                    style={[
+                                        GlobalStyle.CustomFontRegular,
+                                        styles.buton_input_text
+                                    ]}
+                                    >
+                                        Поиск
+                                    </Text>
+                                    <View style={styles.button_search}>
+                                        <GlobalSvgSelector id='search' />
+                                    </View>
+                                </TouchableOpacity>
+                                {true ? (
+                                    <TouchableOpacity 
+                                    onPress={() => clearFilterHandler()}
+                                    style={styles.buton_clear}
+                                    >
+                                        <GlobalSvgSelector id='clear' />
+                                    </TouchableOpacity>
+                                ): null}
+                            </View>
+                            {locations?.map((item, index) => (
+                                <CardMachine 
+                                    key={index}
+                                    icons={item.icons}
+                                    address={item.address}
+                                    data={item.data}
+                                    title={item.name}
+                                    statusHr={index !== locations?.length - 1}
+                                />
+                            ))}
+                        </>
+                    )}
                 </View>
-                {/* <View style={styles.container}>
-                    <Text>Here is the content inside panel</Text>
-                    <Button title='Hide' 
-                    // onPress={() => panel.hide()} 
-                    />
-                </View> */}
             </SlidingUpPanel>
-            {/* <SlidingPanel
-                
-                draggableRange={{top: 0, bottom: 110}}
-                ref={c => { setPanel(c); }}
-                style={{width: '100%', marginTop: 300}}
-                headerLayoutHeight = {135}
-                slidingPanelLayoutHeight = {1000}
-                height={200}
-                top={200}
-                headerLayout = { () => (
-                    // <View style={{width: '100%', height: 55}}>
-                    <View style={styles.footer}>
-                        <View style={styles.block_hr} />
-                    </View>
-                    // </View>
-                )}
-                slidingPanelLayout = { () =>
-                    <View style={styles.slidingPanelLayoutStyle}>
-                    <Text style={styles.commonTextStyle}>The best thing about me is you</Text>
-                    </View>
-                }
-            /> */}
-
         </View>
         </>
     );

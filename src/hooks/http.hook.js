@@ -20,7 +20,8 @@ export const useHttp = () => {
                 auth.logout();
             }
             
-            let data = await response.json()
+            let data = await response.json();
+            console.log('ooo-', data)
             if (!response.ok && data.message === "Неверный логин или пароль") {
                 auth.logout();
             }

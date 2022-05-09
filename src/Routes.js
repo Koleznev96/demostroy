@@ -110,6 +110,7 @@ const StackRootRoutes = (isAuth, isUrl) => {
       <Stack.Screen name='Home' component={HomeScreen} options={{ headerShown: false }}/>
       <Stack.Screen name='Dashboard' component={DashboardScreen} options={{ headerShown: false }}/>
       <Stack.Screen name='Chat' component={ChatScreen} options={{ headerShown: false }}/>
+      <Stack.Screen name='Map' component={MapScreen} options={{ headerShown: false }}/>
       <Stack.Screen name='Dealog' component={DealogScreen} options={{ headerShown: false }}/>
       {/* <Stack.Screen name="Home" options={{ headerShown: false }}>
         {props => <HomeScreen {...props} />}
@@ -152,8 +153,7 @@ export const Routes = (isAuth, isUrl) => {
 
   return ( 
     <NavigationContainer>
-      <Stack.Navigator initialRouteName='Map'>
-        <Stack.Screen name='Map' component={MapScreen} options={{ headerShown: false }}/>
+      <Stack.Navigator initialRouteName='SplashOne'>
         <Stack.Screen name='SplashOne' component={SplashOneScreen} options={{ headerShown: false }}/>
         <Stack.Screen name='Root' component={() => StackRootRoutes(isAuth, isUrl)} options={{ headerShown: false }}/>
       </Stack.Navigator>
