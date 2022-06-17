@@ -16,13 +16,12 @@ export const styles = StyleSheet.create({
         fontSize: 14,
         marginTop: 6,
         height: 36,
-        borderBottomWidth: 1,
-        borderColor: 'rgba(203, 217, 255, 0.2)',
+        
         paddingBottom: -8,
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        paddingRight: 16,
+        
     },
     value: {
         fontSize: 14,

@@ -42,11 +42,9 @@ function HomeScreen({ navigation, route }) {
     const getVersion = async () => {
         //Update version APP
         try {
-            console.log('aaaaa')
             const answer = await request(`${auth.url_str}/mobile/default/get-version`, 'GET', null, {
                 "Api-Language": auth.lenguage.value
             });
-            console.log('aaaaa777-', answer)
             setUpdateValue(answer !== versionApp);
         } catch (e) {}
     }

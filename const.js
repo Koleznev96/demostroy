@@ -5,4 +5,4 @@
 export const httpServer = "https://elsadchess.herokuapp.com";
 
 // versionApp
-export const versionApp = 2;
+export const versionApp = 3;  // Update date 17.06.2022

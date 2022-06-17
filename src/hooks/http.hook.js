@@ -14,6 +14,7 @@ export const useHttp = () => {
                 body = JSON.stringify(body);
                 headers['Content-Type'] = 'application/json';
             }
+            // console.log('6666-', url)
             let response = await fetch(url, {method, body, headers})
 
             if (!response.ok && response.status === 401) {
@@ -21,7 +22,7 @@ export const useHttp = () => {
             }
             
             let data = await response.json();
-            console.log('ooo-', data)
+            // console.log('ooo-', data)
             if (!response.ok && data.message === "Неверный логин или пароль") {
                 auth.logout();
             }

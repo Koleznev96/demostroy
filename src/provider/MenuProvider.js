@@ -16,9 +16,11 @@ export const MenuProvider = ({children, ...props}) => {
     const [listMenu, setListMenu] = useState(null);
     const [activeMenu, setActiveMenu] = useState(null);
     const [render, setRender] = useState(false);
+    const [prevMenu, setPrevMenu] = useState(null);
     const {loading, request, error, clearError} = useHttp();
 
     const menuHandler = (item) => {
+        setPrevMenu(activeMenu);
         setActiveMenu(item);
     };
 
@@ -49,7 +51,9 @@ export const MenuProvider = ({children, ...props}) => {
             listMenu,
             activeMenu,
             menuHandler,
-            newRender
+            newRender,
+            setPrevMenu,
+            prevMenu
         }}
         {...props}
     >

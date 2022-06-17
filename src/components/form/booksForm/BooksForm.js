@@ -47,7 +47,11 @@ export const BooksForm = ({ data }) => {
         data.change({name: data.name, value: item.id}, data.index);
     }
 
-    
+    const nullHandler = () => {
+        setValue(null);
+        popapRoot.exitHandler();
+        data.change({name: data.name, value: null}, data.index);
+    }
 
     const DataPopap = () => {
         const [data_an, set_data_an] = useState([]);
@@ -67,7 +71,7 @@ export const BooksForm = ({ data }) => {
 
         useEffect(() => {
             getSearch('');
-        }, [])
+        }, []);
 
         return (
         <>
@@ -135,6 +139,16 @@ export const BooksForm = ({ data }) => {
     return (
         <View style={styles.root}>
         <Text style={[GlobalStyle.CustomFontRegular, styles.label]}>{data.label}</Text>
+        <View style={{width: '100%', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', borderBottomWidth: 1,
+        borderColor: 'rgba(203, 217, 255, 0.2)', paddingRight: (value && value[data.filter]) ? 32 : 16}}>
+        {value && value[data.filter] ? (
+            <Pressable
+                style={{height: '100%', width: 24, flexDirection: 'row', alignItems: 'center', marginTop: 9,}}
+                onPress={() => nullHandler()}
+            >
+                <GlobalSvgSelector id="clear_books" />
+            </Pressable>
+        ): null}
         <Pressable 
         style={[styles.input, data?.styles ? data.styles : null ]} 
         onPress={() => openPopap()}
@@ -142,6 +156,7 @@ export const BooksForm = ({ data }) => {
             <Text style={[GlobalStyle.CustomFontRegular, styles.value]}>{value ? value[data.filter] : (data?.lang ? data?.lang['Выберите'] : "Выберите")}</Text>
             <GlobalSvgSelector id='arrow_items' />
         </Pressable>
+        </View>
         {data.error?.length ? <Text style={[GlobalStyle.CustomFontRegular, styles.error_text]}>
             {data.error}
         </Text> : null}

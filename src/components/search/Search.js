@@ -21,7 +21,7 @@ import { GlobalSvgSelector } from '../../assets/GlobalSvgSelector';
 import { TextInput } from 'react-native-gesture-handler';
 
 
-export const Search = ({ value, searchHandler, filterHandler, setStrSearch }) => {
+export const Search = ({ value, searchHandler, filterHandler, setStrSearch, onFocus }) => {
 
     const [str_search, set_str_search] = useState('');
 

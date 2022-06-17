@@ -1,11 +1,13 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState, useRef} from 'react';
 import {
     View,
     ScrollView,
     Dimensions,
     TouchableOpacity,
     Text,
-    Keyboard
+    Keyboard,
+    Animated,
+    Pressable
 } from 'react-native';
 import { AuthContext } from "../../context/authContext";
 import { useHttp } from "../../hooks/http.hook";
@@ -27,37 +29,143 @@ import { ButtonFull } from '../../components/buttonFull/ButtonFull';
 import { CardMachine } from '../../components/map/cardMachine/CardMachine';
 import {BooksForm} from '../../components/form/booksForm/BooksForm';
 import { DataLangContext } from '../../context/DataLangContext';
+import { InputForm } from '../../components/form/inputForm/InputForm';
+import { NumberForm } from '../../components/form/numberForm/NumberForm';
+import { DateForm } from '../../components/form/dateForm/DateForm';
+import { MenuContext } from '../../context/MenuContext';
 // import YaMap from 'react-native-yamap';
 const {width, height} = Dimensions.get('screen');
 
-
-const route = {
-    start: { lat: 0, lon: 0},
-    end: { lat: 10, lon: 10},
-};
-
-// YandexMapKit.setApiKey('bf54697f-7a05-4c12-8e35-9f4de680982f');
-
-// YaMap.init('bf54697f-7a05-4c12-8e35-9f4de680982f');
-
+const delta = {
+    latitudeDelta: 0.0622,
+    longitudeDelta: 0.0221,
+}
 
 function MapScreen({ navigation }) {
     const popapRoot = useContext(PopapContext);
     const auth = useContext(AuthContext);
     const {loading, request, error, clearError} = useHttp();
     const [Refreshing, setRefreshing] = useState(false);
-    const [panel, setPanel] = useState(null);
+    const [panel, setPanel] = useState(false);
     const [number, setNumber] = useState(null);
     const [strSearch, setStrSearch] = useState("");
     const [form, setForm] = useState([]);
     const [locations, setLocations] = useState([]);
     const dataLang = useContext(DataLangContext);
-    const [finalForm, setFinalForm] = useState({});
     const [isKeyboardVisible, setKeyboardVisible] = useState(false);
     const [statusFilter, setStatusFilter] = useState(false);
+    const [finalForm, setFinalForm] = useState({});
+    const [mapFunctional, setMapFunctional] = useState(null);
+    const [activeItems, setActiveItemsl] = useState([]);
+    const fadeAnim = useRef(new Animated.Value(0)).current;
+    const fadeTop = useRef(new Animated.Value(height - 200)).current;
+    const menuRoot = useContext(MenuContext);
+
+    const activeHandler = (index) => {
+        const index_remove = activeItems?.indexOf(index);
+        let new_data = [...activeItems];
+        if (index_remove !== -1) {
+            new_data.splice(index_remove, 1);
+        } else {
+            new_data.push(index);
+        }
+        setActiveItemsl(new_data);
+    }
+
+    const getData = async (status_null) => {
+        let filters_str = "";
+        if (!status_null) {
+            Object.entries(finalForm)?.forEach((item) => {
+                filters_str += `&${item[0]}=${item[1]}`;
+            });
+        }
+        try {
+            const answer = await request(`${auth.url_str}/mobile/maps/index?token=${auth.token}${filters_str}`, 'GET', null, {
+                "Api-Language": auth.lenguage.value
+            });
+            setForm(answer[0].form);
+            setLocations(answer.machines);
+        } catch (e) {
+            // console.log('uuu-', e)
+        }
+    }
 
     useEffect(() => {
-        const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () =>  setKeyboardVisible(true));
+        setTimeout(() => getData(), 2000)
+    }, []);
+
+    useEffect(() => {
+        if (locations && locations?.length) {
+            const new_start_coords = locations?.find(item => (item.addressCoords && item.addressCoords.length));
+            console.log('nn0-', new_start_coords?.addressCoords);
+            if (new_start_coords && mapFunctional) {
+                let region = {
+                    latitude: Number(new_start_coords.addressCoords?.split(',')[0]),
+                    longitude: Number(new_start_coords.addressCoords?.split(',')[1]),
+                    ...delta,
+                };
+                mapFunctional.animateToRegion(region)
+            }
+        }
+    }, [locations])
+
+    const goBack = () => {
+        menuRoot.menuHandler(menuRoot.prevMenu);
+        navigation.goBack();
+    }
+
+    const panelHandler = () => {
+        if (!panel) {
+            setPanel(!panel)
+            Animated.timing(fadeAnim, {
+                toValue: 1,
+                duration: 1000,
+                useNativeDriver: true
+            }).start();
+            Animated.timing(fadeTop, {
+                toValue: height * 30 / 100,
+                duration: 1000,
+                useNativeDriver: true
+            }).start();
+        } else {
+            Keyboard.dismiss();
+            Animated.timing(fadeAnim, {
+                toValue: 0,
+                duration: 1000,
+                useNativeDriver: true
+            }).start(() => setPanel(!panel));
+            Animated.timing(fadeTop, {
+                toValue: height - 200,
+                duration: 1000,
+                useNativeDriver: true
+            }).start();
+        }
+    }
+
+    const panelHandlerActive = (duration) => {
+        if (!panel) {
+            setPanel(!panel)
+            Animated.timing(fadeAnim, {
+                toValue: 1,
+                duration: duration ? duration : 100,
+                useNativeDriver: true
+            }).start();
+            Animated.timing(fadeTop, {
+                toValue: height * 30 / 100,
+                duration: duration ? duration : 100,
+                useNativeDriver: true
+            }).start();
+        }
+    }
+
+    useEffect(() => {
+        if (isKeyboardVisible) {
+            panelHandlerActive();
+        }
+    }, [isKeyboardVisible])
+
+    useEffect(() => {
+        const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () => setKeyboardVisible(true));
         const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => setKeyboardVisible(false));
 
         return () => {
@@ -66,60 +174,47 @@ function MapScreen({ navigation }) {
         };
     }, []);
 
-    const getData = async () => {
-        try {
-            const answer = await request(`${auth.url_str}/mobile/maps/index?token=${auth.token}`, 'GET', null, {
-                "Api-Language": auth.lenguage.value
-            });
-            setForm(answer[0].form);
-            setLocations(answer[1].locations);
-        } catch (e) {
-            console.log('uuu-', e)
-        }
-    }
-
-    console.log('hhh-', form)
-
-    useEffect(() => {
-        getData();
-    }, [])
-
-    const newSearch = (text) => {
-        setStrSearch(text);
-    }
-
-    const goBack = () => {
-        navigation.goBack();
-    }
-
-    // useEffect(() => {
-    //     if (panel) panel.show();
-    // }, [panel]);
-
-    const panelHandler = () => {
-        let top_number = number > (height * 60 / 100) / 2 ? 135 : height * 60 / 100;
-        setNumber(top_number);
-        panel.show(top_number);
-    }
-
     const onHandlerMarker = (data) => {
-        console.log("6666-", data)
-    }
-
-    const searchHandler = () => {
 
     }
 
-    const changeRoot = () => {
-
+    const searchHandler = (value) => {
+        setStrSearch(value);
+        let new_final_form = {...finalForm};
+        new_final_form.search = value?.length > 0 ? value : null;
+        setFinalForm({...new_final_form});
     }
 
     const saveFilterHandler = () => {
-        console.log('status-', statusFilter)
+        getData();
         setStatusFilter(false);
     } 
 
     const clearFilterHandler = () => {
+        setFinalForm({});
+        getData(true);
+    }
+
+    const changeRoot = (data) => {
+        let new_data = Object.entries(finalForm);
+        let answer = {};
+        let flag = true;
+        new_data.forEach((item) => {
+            if (item[0] === data.name) {
+                if (data.value) {
+                    answer[item[0]] = data.value;
+                }
+                flag = false;
+            }
+            else answer[item[0]] = item[1];
+        });
+        if (flag) {
+            answer[data.name] = data.value;
+        }
+        setFinalForm({...answer});
+    };
+
+    const null_func = () => {
 
     }
 
@@ -136,38 +231,45 @@ function MapScreen({ navigation }) {
                 </TouchableOpacity>
             </View>
             <MapView
+                ref={(map) => setMapFunctional(map)}
+                
                 style={{width: '100%', height: '100%'}}
                 initialRegion={{
-                    latitude: locations?.length > 0 ? (locations[0]?.coords.length > 0 ? Number(locations[0].coords?.split(',')[0]) : 56.194) : 56.194,
-                    longitude: locations?.length > 0 ? (locations[0]?.coords.length > 0 ? Number(locations[0].coords?.split(',')[1]) : 92.8672) : 92.8672,
-                    latitudeDelta: 0.0922,
-                    longitudeDelta: 0.0421,
+                    latitude: 55.45,
+                    longitude: 37.36,
+                    ...delta,
                 }}
             >
-                {locations?.map((item, index) => (
-                    <MarkerMap 
-                        key={index}
-                        icon={"marker-1"}
-                        title={"Title"}
-                        description={"description"}
-                        coordinate={{
-                            latitude: item?.coords.length > 0 ? Number(item.coords?.split(',')[0]) : 56.194,
-                            longitude: item?.coords.length > 0 ? Number(item.coords?.split(',')[0]) : 92.8672,
-                            latitudeDelta: 0.0922,
-                            longitudeDelta: 0.0421,
-                        }}
-                        hadnler={onHandlerMarker}
-                    />
-                ))}
+                {locations?.map((item, index) => {
+                    console.log('item-', index, item?.addressCoords);
+                    if (!item?.addressCoords || item?.addressCoords.length < 0 || item.addressCoords?.split(',').length !== 2) {
+                        return null;
+                    }
+                    return (
+                        <MarkerMap 
+                            key={index}
+                            icon={"marker-1"}
+                            title={"Title"}
+                            description={"description"}
+                            coordinate={{
+                                latitude: Number(item.addressCoords?.split(',')[0]),
+                                longitude: Number(item.addressCoords?.split(',')[1]),
+                                ...delta,
+                            }}
+                            hadnler={onHandlerMarker}
+                        />
+                    )}
+                )}
             </MapView>
-            <SlidingUpPanel 
-            // MinimumDistanceThreshold={50}
-            draggableRange={{top: 1000, bottom: 125}}
-            ref={c => setPanel(c)}
-            Minimumvelocityhreshold={0.2}
-            onMomentumDragEnd={(number) => setNumber(number)}
-            >
-                <View style={styles.footer}>
+            {panel ? (
+            <Animated.View style={[styles.blur, {opacity: fadeAnim}]}>
+                <Pressable style={{width: '100%', height: '100%'}} onPress={() => panelHandler()}>
+
+                </Pressable>
+            </Animated.View>
+            ): null}
+            <View style={styles.footer_panel}>
+            <Animated.View style={[styles.footer, {translateY: fadeTop}]}>
                     <TouchableOpacity
                     onPress={() => panelHandler()}
                     style={styles.panel_header}
@@ -181,7 +283,7 @@ function MapScreen({ navigation }) {
                     {statusFilter ? (
                         <>
                             <View style={styles.header_footer}>
-                                <Search data={null} searchHandler={searchHandler} setStrSearch={setStrSearch} />
+                                <Search data={null} searchHandler={null_func} setStrSearch={searchHandler} value={strSearch} onFocus={panelHandlerActive} />
                             </View>
                             <Text
                             style={[
@@ -191,31 +293,43 @@ function MapScreen({ navigation }) {
                             >
                                 Информация
                             </Text>
+                            {/* {
+                                form?.map((item, index) => {
+                                    return renderGetInput({data: item});
+                                })
+                            } */}
+                            <ScrollView 
+                                style={{width: '100%'}}
+                                keyboardShouldPersistTaps='handled' 
+                                showsVerticalScrollIndicator={false}
+                                contentContainerStyle={{paddingBottom: 20}} 
+                            >
                             {form?.map((item, index) => (
-                                <BooksForm data={{...item, change: changeRoot, value: finalForm, lang: dataLang.data}}/>
+                                <BooksForm data={{...item, change: changeRoot, value: finalForm, lang: dataLang.data, styles: {height: 40,}}}/>
                             ))}
                             <ButtonFull data={{value: 'Сохранить', change: saveFilterHandler}} />
+                            </ScrollView>
                         </>
                     ) : (
                         <>
                             <View style={styles.header_footer}>
                                 <TouchableOpacity 
-                                onPress={() => setStatusFilter(true)}
-                                style={true ? styles.buton_input : styles.buton_input_max}
+                                onPress={() => {setStatusFilter(true); panelHandlerActive(1000)}}
+                                style={Object.keys(finalForm).length !== 0 ? styles.buton_input : styles.buton_input_max}
                                 >
                                     <Text
                                     style={[
                                         GlobalStyle.CustomFontRegular,
-                                        styles.buton_input_text
+                                        finalForm?.search?.length ? styles.buton_input_text_active : styles.buton_input_text
                                     ]}
                                     >
-                                        Поиск
+                                        {finalForm?.search?.length ? finalForm?.search : 'Поиск'}
                                     </Text>
                                     <View style={styles.button_search}>
                                         <GlobalSvgSelector id='search' />
                                     </View>
                                 </TouchableOpacity>
-                                {true ? (
+                                {Object.keys(finalForm).length !== 0 ? (
                                     <TouchableOpacity 
                                     onPress={() => clearFilterHandler()}
                                     style={styles.buton_clear}
@@ -224,20 +338,30 @@ function MapScreen({ navigation }) {
                                     </TouchableOpacity>
                                 ): null}
                             </View>
+                            <ScrollView 
+                                style={{width: '100%'}}
+                                keyboardShouldPersistTaps='handled' 
+                                showsVerticalScrollIndicator={false}
+                                contentContainerStyle={{paddingBottom: 20}} 
+                            >
                             {locations?.map((item, index) => (
                                 <CardMachine 
                                     key={index}
                                     icons={item.icons}
                                     address={item.address}
-                                    data={item.data}
+                                    data={item}
                                     title={item.name}
                                     statusHr={index !== locations?.length - 1}
+                                    index={index}
+                                    activeHandler={activeHandler}
+                                    statusActive={activeItems?.indexOf(index) !== -1}
                                 />
                             ))}
+                            </ScrollView>
                         </>
                     )}
-                </View>
-            </SlidingUpPanel>
+                </Animated.View>
+            </View>
         </View>
         </>
     );

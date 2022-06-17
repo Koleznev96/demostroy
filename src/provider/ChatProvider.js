@@ -190,7 +190,6 @@ export const ChatProvider = ({children, ...props}) => {
     }
 
     useEffect(() => {
-        console.log('gggggg')
         if (refNotification) addMeassage(refNotification);
     }, [refNotification]);
 

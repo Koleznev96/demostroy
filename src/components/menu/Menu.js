@@ -98,7 +98,6 @@ export const Menu = ({ navigation, status, noActive }) => {
         dataRoot.addFilter(null);
         set_is_open(false);
         settingDataRoot.clearData();
-        console.log('ggpp-', item)
         if(item.url[0] === "/maps") {
             menuRoot.menuHandler(item);
             navigation.navigate('Map');

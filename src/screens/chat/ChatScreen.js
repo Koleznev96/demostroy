@@ -75,7 +75,6 @@ function ChatScreen({ navigation, route }) {
     // }
 
     BackHandler.addEventListener('hardwareBackPress', () => {
-        console.log('111111')
         if (navigation.getState()['routes'][navigation.getState()['index']].name === "Chat") return true;
         return false;
     });
@@ -92,12 +91,10 @@ function ChatScreen({ navigation, route }) {
     }
 
     const searchHandler = () => {
-        console.log('22222')
         chatRoot.getDataRoot(chatRoot.strSearch);
     }
 
     const itemHandler = (item) => {
-        console.log('33333')
         let new_data = [...chatRoot.data];
         new_data[item.index].count_new_messages = 0;
         chatRoot.setData(new_data)
@@ -107,7 +104,6 @@ function ChatScreen({ navigation, route }) {
 
 
     const newChangeNotification = async(notify) => {
-        console.log('444444')
         // addMeassage(notify);
         // console.log('6666-------------------', chatRoot.data_chat)
         chatRoot.setRefNotification(notify);
@@ -120,7 +116,6 @@ function ChatScreen({ navigation, route }) {
       // }
     
     useEffect(() => {
-        console.log('555555')
         localNotificationService.configure(newChangeNotification);
     }, []); 
 

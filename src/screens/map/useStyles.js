@@ -3,6 +3,15 @@ import { Colors } from "../../utils/Colors";
 const {width, height} = Dimensions.get('screen');
 
 export const styles = StyleSheet.create({
+    blur: {
+        position: 'absolute',
+        left: 0,
+        top: 0,
+        right: 0,
+        bottom: 0,
+        backgroundColor: 'rgba(0, 0, 0, 0.6)',
+        opacity: 0,
+    },
     body: {
         flex: 1,
         flexDirection: 'column',
@@ -49,6 +58,11 @@ export const styles = StyleSheet.create({
         fontSize: 15,
         color: 'rgba(203, 217, 255, 0.6)',
     },
+    buton_input_text_active: {
+        paddingHorizontal: 6,
+        fontSize: 15,
+        color: '#FFFFFF',
+    },
     panel_title: {
         fontSize: 18,
         marginTop: 10,
@@ -69,6 +83,7 @@ export const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
+        // zIndex: -10
     },
     header_search: {
         marginTop: Platform.OS === 'ios' ? 35 : 16,
@@ -84,9 +99,16 @@ export const styles = StyleSheet.create({
         // backgroundColor: '#000',
         flex: 1,
     },
+    footer_panel: {
+        position: 'absolute',
+        // bottom: -height * 60 / 100 + 120,
+        left: 0,
+        right: 0,
+        // bottom: 230,
+    },
     footer: {
         width: width,
-        height: 1000,
+        height: height * 70 / 100 - 70,
         paddingHorizontal: 20,
         flexDirection: 'column',
         // alignItems: 'center',
@@ -94,11 +116,13 @@ export const styles = StyleSheet.create({
         borderTopStartRadius: 20,
         borderTopEndRadius: 20,
     },
+    footer_active: {
+        height: height * 70 / 100,
+    },
     panel_header: {
         paddingTop: 12,
         width: '100%',
         paddingBottom: 12,
-        marginBottom: 2,
         flexDirection: 'row',
         justifyContent: 'center',
     },
