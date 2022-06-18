@@ -104,7 +104,17 @@ export const styles = StyleSheet.create({
         // bottom: -height * 60 / 100 + 120,
         left: 0,
         right: 0,
-        // bottom: 230,
+    },
+    block_active_data: {
+        paddingHorizontal: 20,
+        paddingBottom: 20,
+        backgroundColor: Colors.FirstColor,
+        borderRadius: 20,
+        marginBottom: 14,
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        bottom: 120,
     },
     footer: {
         width: width,

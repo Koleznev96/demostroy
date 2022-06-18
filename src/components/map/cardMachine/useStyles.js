@@ -16,6 +16,13 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
         paddingVertical: 18,
     },
+    header_: {
+        width: '100%',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        paddingBottom: 18,
+    },
     title: {
         fontSize: 18,
     },

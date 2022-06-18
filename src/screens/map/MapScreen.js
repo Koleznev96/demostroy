@@ -33,6 +33,7 @@ import { InputForm } from '../../components/form/inputForm/InputForm';
 import { NumberForm } from '../../components/form/numberForm/NumberForm';
 import { DateForm } from '../../components/form/dateForm/DateForm';
 import { MenuContext } from '../../context/MenuContext';
+import { CardMachineActive } from '../../components/map/cardMachine/CardMachineActive';
 // import YaMap from 'react-native-yamap';
 const {width, height} = Dimensions.get('screen');
 
@@ -60,6 +61,7 @@ function MapScreen({ navigation }) {
     const fadeAnim = useRef(new Animated.Value(0)).current;
     const fadeTop = useRef(new Animated.Value(height - 200)).current;
     const menuRoot = useContext(MenuContext);
+    const [activeData, setActiveData] = useState(null);
 
     const activeHandler = (index) => {
         const index_remove = activeItems?.indexOf(index);
@@ -218,6 +220,10 @@ function MapScreen({ navigation }) {
 
     }
 
+    const activePanelHandler = (data) => {
+        setActiveData(data ? data : null);
+    }
+
     return (
         <>
         <Popap />
@@ -247,6 +253,7 @@ function MapScreen({ navigation }) {
                     }
                     return (
                         <MarkerMap 
+                            data={item}
                             key={index}
                             icon={"marker-1"}
                             title={"Title"}
@@ -256,7 +263,7 @@ function MapScreen({ navigation }) {
                                 longitude: Number(item.addressCoords?.split(',')[1]),
                                 ...delta,
                             }}
-                            hadnler={onHandlerMarker}
+                            hadnler={activePanelHandler}
                         />
                     )}
                 )}
@@ -267,9 +274,29 @@ function MapScreen({ navigation }) {
 
                 </Pressable>
             </Animated.View>
-            ): null}
+            ): (
+                activeData ? (
+                    <View style={[styles.block_active_data]}>
+                        <TouchableOpacity
+                        onPress={() => panelHandler()}
+                        style={styles.panel_header}
+                        >
+                        <View style={styles.block_hr} />
+                        </TouchableOpacity>
+                        <CardMachineActive 
+                            icons={activeData?.icons}
+                            address={activeData?.address}
+                            data={activeData}
+                            title={activeData?.name}
+                            activeHandler={activePanelHandler}
+                        />
+                    </View>
+                ): null
+            )}
             <View style={styles.footer_panel}>
+            
             <Animated.View style={[styles.footer, {translateY: fadeTop}]}>
+            
                     <TouchableOpacity
                     onPress={() => panelHandler()}
                     style={styles.panel_header}

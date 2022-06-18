@@ -9,11 +9,11 @@ import GlobalStyle from "../../GlobalStyle";
 import {Marker} from 'react-native-maps';
 import { GlobalSvgSelector } from '../../../assets/GlobalSvgSelector';
 
-export const MarkerMap = ({ key, title, description, coordinate, icon, hadnler }) => {
+export const MarkerMap = ({ key, title, description, coordinate, icon, hadnler, data }) => {
     // console.log("ggg-", title, description, coordinate, icon)
     return (
         <Marker
-            onPress={() => hadnler({key, title, description})}
+            onPress={() => hadnler(data)}
             key={key ? key : "1"}
             // title={title}
             // description={description}
