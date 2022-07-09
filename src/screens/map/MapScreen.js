@@ -99,7 +99,7 @@ function MapScreen({ navigation }) {
     useEffect(() => {
         if (locations && locations?.length) {
             const new_start_coords = locations?.find(item => (item.addressCoords && item.addressCoords.length));
-            console.log('nn0-', new_start_coords?.addressCoords);
+            // console.log('nn0-', new_start_coords?.addressCoords);
             if (new_start_coords && mapFunctional) {
                 let region = {
                     latitude: Number(new_start_coords.addressCoords?.split(',')[0]),
@@ -247,7 +247,7 @@ function MapScreen({ navigation }) {
                 }}
             >
                 {locations?.map((item, index) => {
-                    console.log('item-', index, item?.addressCoords);
+                    // console.log('item-', index, item?.addressCoords);
                     if (!item?.addressCoords || item?.addressCoords.length < 0 || item.addressCoords?.split(',').length !== 2) {
                         return null;
                     }

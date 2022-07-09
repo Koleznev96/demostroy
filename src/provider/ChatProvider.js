@@ -64,7 +64,7 @@ export const ChatProvider = ({children, ...props}) => {
     }
 
     useEffect(() => {
-        console.log('mmmm')
+        // console.log('mmmm')
         if (auth.token) {
             getMyId();
             getDataRoot();
